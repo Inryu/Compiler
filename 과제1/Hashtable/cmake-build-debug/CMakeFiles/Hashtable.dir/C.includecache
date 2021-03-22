@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/shininryu/Desktop/🌈2021-1/compiler-teamproject/과제1/Hashtable/main.c
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+string.h
+-
+
