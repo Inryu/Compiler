@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h> //exit()?
 #include <string.h>
-#define FILE_NAME "../testdata4.txt"
+#define FILE_NAME "../testdata-kh-error.txt"
 #define STsize 1000 //size of string table
 #define HTsize 100 // size of hash table
 
@@ -130,11 +130,10 @@ void PrintError(ERRORtypes err){
 
             input=fgetc(fp);
 
-            while(input != EOF && (isLetter(input)|| isDigit(input)||!isSeperator(input))){
+            while(input != EOF && (isLetter(input)|| isDigit(input))||!isSeperator(input)){
                 printf("%c",input);
                 input=fgetc(fp);
             }
-
 
             printf("%15c is not allowed \n", tmp);
             break;
@@ -162,17 +161,18 @@ void PrintError(ERRORtypes err){
  * */
 
 
+
 //맨 앞글자가 seperator인지?
 void SkipSeperators(){
 
     while(input !=EOF && !(isLetter(input)|| isDigit(input))){ //문자도 아니고 숫자도 아니고 마지막 글자도 아님
         if(!isSeperator(input)){ //이때, 불법 구분자면
-            err=illsp;
-            nextid=nextfree;
-            PrintError(err);
-            err=noerror;
-        }
+                err=illsp;
+                nextid=nextfree;
+                PrintError(err);
+                err=noerror;
 
+        }
 
         input = fgetc(fp); // 또 읽음
     }
