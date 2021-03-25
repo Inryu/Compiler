@@ -1,6 +1,3 @@
-veryVERYlonglong
-x1 y2a34z abc acb cba cab abc acb ab
-VERY_very1
-VERY_very&
-99 4a
-very_VERY1 aa
+thisTESTDATA issssssssssss: f0rChecking     StRing;sTring
+lengthLength    CAUTION! eachw0rds_
+mustNOTexceed12.character2
