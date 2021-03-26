@@ -2,7 +2,11 @@
 #include <string.h>
 #include <stdlib.h> //exit()?
 #include <string.h>
+<<<<<<< HEAD
 #define FILE_NAME "../testdata-kh-error.txt"
+=======
+#define FILE_NAME "../testdata3.txt"
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
 #define STsize 1000 //size of string table
 #define HTsize 100 // size of hash table
 
@@ -12,28 +16,32 @@
 #define isLetter(x) ( x>='a' && x<='z'||x>='A'&& x<='Z'||x=='_')
 #define isDigit(x) (x>='0'&&x<='9')
 
+<<<<<<< HEAD
+=======
+enum errorTypes{noerror, illsp, startnum,illid, overst,toolong};
+typedef enum errorTypes ERRORtypes;
+char seperators[]=".,;:?!\t\n ";
+
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
 
 typedef struct HTentry *HTpointer;
 typedef struct HTentry{
     int index; //index of identifier in ST
     HTpointer next; //pointer to next identifier
-
 }HTentry;
 
-enum errorTypes{noerror, illsp, illid, overst,toolong};
-typedef enum errorTypes ERRORtypes;
-
-char seperators[]=".,;:?!\t\n ";
-
 HTpointer HT[HTsize];
+
+<<<<<<< HEAD
+=======
 char ST[STsize];
 
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
 int nextid=0; //the current identifier
 int nextfree=0; //the next available index of ST
 int hashcode ; //hash code of identifier
 int sameid; //fisrt index of identifier
-
-int found; //for the previous ocurrence of a idntifier
+int found; //for the previous ocurrence of a identifier
 
 ERRORtypes err;
 
@@ -53,6 +61,7 @@ int isSeperator(char c){
 
     sep_len=strlen(seperators);
 
+    //input c가 seperator에 속하는지 확인
     for(i=0;i<sep_len;i++){
         if(c==seperators[i]) {
             return 1;
@@ -113,6 +122,21 @@ void PrintHStable()
 
 void PrintError(ERRORtypes err){
     switch(err){
+
+        //letter, digit이 아닌 게 있으면
+        case illid:
+            printf("...Error...    ");
+            for( int i = nextid; i< nextfree -1; i++ )
+                printf("%c", ST[i]);
+            while(input != EOF){
+                if(isSeperator(input)){
+                    break;
+                }
+                printf("%c",input);
+                input=fgetc(fp);
+            }
+            printf("illgal identifier \n", input);
+            break;
         case overst:
             printf("...Error... OVERFLOW ");
             PrintHStable();
@@ -137,11 +161,21 @@ void PrintError(ERRORtypes err){
 
             printf("%15c is not allowed \n", tmp);
             break;
-        case illid:
+        case startnum :
             printf("...Error...    ");
+
+            //숫자로 시작된 단어.. seperator 나올 때 까지 출력
             for( int i = nextid; i< nextfree -1; i++ )
                 printf("%c", ST[i]);
+<<<<<<< HEAD
             while(input != EOF && (isLetter(input)|| isDigit(input))){
+=======
+
+            while(input != EOF){
+                if(isSeperator(input)){
+                    break;
+                }
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
                 printf("%c",input);
                 input=fgetc(fp);
             }
@@ -160,6 +194,7 @@ void PrintError(ERRORtypes err){
 *       if illegal seperators, print out error message
  * */
 
+<<<<<<< HEAD
 
 
 //맨 앞글자가 seperator인지?
@@ -172,11 +207,21 @@ void SkipSeperators(){
                 PrintError(err);
                 err=noerror;
 
+=======
+//seperator가 될 만한 것들이 나오면
+void SkipSeperators(){
+
+    while(input !=EOF && !(isLetter(input)|| isDigit(input))){
+        if(!isSeperator(input)){ //불법구분자면
+            err=illsp;
+            PrintError(err);
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
         }
 
         input = fgetc(fp); // 또 읽음
     }
 
+<<<<<<< HEAD
     if(input==EOF){
         PrintHStable();
         for(int i=0;i<nextfree;i++){
@@ -187,6 +232,19 @@ void SkipSeperators(){
         exit(1);
     }
 
+=======
+//    while(input !=EOF){
+//        if(isSeperator(input)) input=fgetc(fp); // 또 읽음
+//
+//        if(isLetter(input)||isDigit(input)){
+//            break;
+//        }
+//        if(!isSeperator(input)){
+//            err=illsp;
+//            PrintError(err);
+//        }
+//    }
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
 }
 /* ReadIO-
 * Read identifiers from the input file the string table ST  directly into ST(append it to the previous identifier).
@@ -195,23 +253,38 @@ void SkipSeperators(){
 
 
 int longcnt=0;
-void ReadID(){
 
+void ReadID(){
     nextid=nextfree;
-    if(isDigit(input)){ //첫글자고 숫자면
-        err=illid;
+
+    if(isDigit(input)){ //첫글자에 숫자면
+        err=startnum;
         PrintError(err);
     }
     else{
+<<<<<<< HEAD
         // ST 만들기 (한 문자 넣기)
         // 문자이거나 숫자일 때
         while(input!=EOF &&(isLetter(input) ||isDigit(input)||!isSeperator(input))){
             if(nextfree ==STsize){ //텍스트 파일이 1000자를 넘어가냐!?
                 err=overst;
                 PrintError(err);
+=======
+        // 하나의 identifier을 읽어서 ST에 저장
+        while(input!=EOF){//seperator가 나올 때 까지 돈다.
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
 
+            //불법구분자이거나, letter, digit이 아닐 때 에러 셋
+            if(!isSeperator(input)){
+                err=illsp;
+                PrintError(illsp);
+            }
+            if(!isLetter(input)||!isDigit(input)){
+                err=illid;
+                PrintError(illid);
             }
 
+<<<<<<< HEAD
             //읽다가 불법구분자 나오면
             if(!isLetter(input)&&!isDigit(input)){
                 err=illsp;
@@ -229,9 +302,23 @@ void ReadID(){
             input=fgetc(fp);
 
 
+=======
+            //구분자가 나오면 종료
+            if(isSeperator(input)) break;
+
+            longcnt++; // 제대로 된 거 때마다 cnt 증가
+
+            if(nextfree ==STsize){ //텍스트 파일이 1000자를 넘어가냐!?
+                err=overst; //🌟nextfree, STsize 인덱스 확인해보기
+                PrintError(err);
+            }
+            else {    //아니면
+                ST[nextfree++] = input; //ST에 넣어주고
+                input = fgetc(fp);  // 계속해서 읽음 //seperator로 추정되는 것 또는 파일 끝까지 다 읽었을 때 while문 종료
+            }
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
         }
     }
-
 
 }
 /*ComputeHS - Compute the hash code of identifier by summing the ordinal values of its
@@ -259,16 +346,24 @@ void LookupHS(int nid, int hscode)
     found = FALSE;
 
 
-    //비어있지 않으면
+    //연결리스트가 생성 되어있으면
     if( HT[hscode] != NULL){
+        //첫번째 리스트를 봄.
         here = HT[hscode];
+
+        //HT[hscode]의 모든 연결리스트에, 동일한 symbol이 있는지 확인
         while(here != NULL && found == FALSE){
-            found = TRUE;
-            i = here->index;
-            j = nid;
+            found = TRUE; // true : 같은 거 존재한다고 가정
+            i = here->index; // 포인터로 살펴보고 있는 애의 index
+            j = nid; //지금 넣을 애의 index
             sameid = i;
+
+            //ST[현재 살펴보고있는 애의 index]=symbol의 첫 인덱스, ST[지금 넣을 애의 index]가 비어있지 않고(symbol의 끝까지)
+            //둘이 같지 않으면 바로 종료,
             while(ST[i] != '\0' && ST[j] != '\0' && found == TRUE ) {
-                if(ST[i] != ST[j]) found = FALSE;
+                if(ST[i] != ST[j]) found = FALSE; //하나라도 둘이 같지 않으면 found : false 같은 것이 존재하지 않음
+
+                //모든 심볼을 살펴볼 거니깐.
                 else{
                     i++;
                     j++;
@@ -289,11 +384,17 @@ If list head ht[hashcode] is null, simply add a list element with
 starting index of the identifier in ST.
 IF list head is not a null, it adds a new idetifier to the head of the chain
 */
+
+
 void ADDHT(int hscode)
 {
     HTpointer ptr;
+    //이게 맞아..?
+    // ptr = (HTpointer *)malloc(sizeof(HTpointer));
 
-    ptr = (HTpointer *)malloc(sizeof(ptr));
+    ptr = (HTpointer *)malloc(sizeof(HTpointer));
+
+    // 맨 앞에 삽입
     ptr->index = nextid;
     ptr->next = HT[hscode];
     HT[hscode] = ptr;
@@ -317,9 +418,8 @@ MAIN
 int main()
 {
     int i;
-    PrintHeading(); // header프린팅
-    initialize(); //파일
-
+    PrintHeading(); // header 프린팅
+    initialize(); // input 파일 열기
 
     //한 글자.
     while(input != EOF){
@@ -327,6 +427,7 @@ int main()
         SkipSeperators();
         ReadID(); //한 덩어리 읽어
 
+<<<<<<< HEAD
 
         if(input==EOF){
             ST[nextfree++] = '\0'; //한 덩어리 끝
@@ -356,6 +457,16 @@ int main()
                 nextfree = nextid;
                 printf("🌟🌟🌟🌟\n");
 
+=======
+        // 한 문자 다 읽었을 때
+        // 한 덩어리 읽고 난 후 구분자후보..!
+        if(input != EOF && err !=startnum ) { //첫글자가 숫자가 아니였으면.
+
+            if(!isSeperator(input)){ //다음이 ill공백이면..
+                err=illsp;
+                PrintError(err);
+                ST[nextfree++]=input; //그래도 넣음
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
             }
 
             if(nextfree == STsize) {
@@ -372,24 +483,38 @@ int main()
                 nextfree=nextid;
             }
 
-            longcnt=0;
+            longcnt=0; //초기화
 
             if(err==noerror) {
                 ComputeHS(nextid, nextfree);
                 LookupHS(nextid, hashcode);
 
+<<<<<<< HEAD
                 if (!found) { // 아직 같은 symbol넣은 적 없을 때
+=======
+
+                if (!found) { //같은것이 존재하지 않음
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
                     printf("%6d		", nextid);
                     for (i = nextid; i < nextfree - 1; i++)
                         printf("%c", ST[i]);
                     printf("		(entered)\n");
+
+                    //새로 추가
                     ADDHT(hashcode);
+<<<<<<< HEAD
                 } else { //
+=======
+
+                } else { //같은 것이 존재함.
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
                     printf("%6d		", sameid);
                     for (i = nextid; i < nextfree - 1; i++)
                         printf("%c", ST[i]);
                     printf("		(already existed)\n");
-                    nextfree = nextid;
+
+                    //추가하지 않고,
+                    nextfree = nextid; //🌟이것은 무엇..?
                 }
             }
         }

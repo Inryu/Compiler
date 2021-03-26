@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 i! Hear_the Rhythm0f:waves
 h1tt1n0n        the shore, theyare___
         Speakin? sPeakin?? speakin!
 ____theyare tell1n_me to.relax Imnot;goodAt_that
 butnowiknowI needIt! neeDiT!! needit?
+=======
+This &is t&est data f&or &the
+hashtable assignment&
+x 123 x
+>>>>>>> 2a8b9632788e2c7edc3ef2917705bb163e21a44b
