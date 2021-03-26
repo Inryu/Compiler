@@ -179,6 +179,11 @@ void SkipSeperators(){
 
     if(input==EOF){
         PrintHStable();
+        for(int i=0;i<nextfree;i++){
+
+            if(ST[i]=='\0') printf("/");
+            else printf("%c",ST[i]);
+        }
         exit(1);
     }
 
@@ -211,6 +216,7 @@ void ReadID(){
             if(!isLetter(input)&&!isDigit(input)){
                 err=illsp;
                 PrintError(err);
+                nextfree=nextid;
                 longcnt=0;
                 break;
             }
@@ -346,8 +352,10 @@ int main()
             //불법구분자다?
             if(!isSeperator(input)){
                 err=illsp;
-                ST[nextfree++]=input;
                 PrintError(err);
+                nextfree = nextid;
+                printf("🌟🌟🌟🌟\n");
+
             }
 
             if(nextfree == STsize) {
@@ -361,6 +369,7 @@ int main()
             if(longcnt>12){
                 err=toolong;
                 PrintError(err);
+                nextfree=nextid;
             }
 
             longcnt=0;
@@ -386,6 +395,12 @@ int main()
         }
     }
     PrintHStable();
+
+    for(int i=0;i<200;i++){
+        printf(" %c ",ST[i]);
+    }
+
+
 
 
 }
