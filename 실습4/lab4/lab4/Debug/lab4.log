@@ -1,0 +1,7 @@
+﻿  main.c
+  lex.yy.c
+lex.yy.c(1378): warning C4996: 'fileno': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _fileno. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(2450): note: 'fileno' 선언을 참조하십시오.
+  코드를 생성하고 있습니다...
+  lab4.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\실습4\lab4\Debug\lab4.exe
+  lab4.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\실습4\lab4\Debug\lab4.pdb (Partial PDB)

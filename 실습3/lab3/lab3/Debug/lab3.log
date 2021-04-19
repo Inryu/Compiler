@@ -1,0 +1,5 @@
+﻿  lex.yy.c
+lex.yy.c(1379): warning C4996: 'fileno': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _fileno. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(2450): note: 'fileno' 선언을 참조하십시오.
+  lab3.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\실습3\lab3\Debug\lab3.exe
+  lab3.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\실습3\lab3\Debug\lab3.pdb (Partial PDB)
