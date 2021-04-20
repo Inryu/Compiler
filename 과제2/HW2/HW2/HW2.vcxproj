@@ -112,8 +112,12 @@
   <ItemGroup>
     <ClCompile Include="lex.yy.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="reporterror.c" />
+    <ClCompile Include="symtable.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="glob.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="tn.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -21,9 +21,21 @@
     <ClCompile Include="lex.yy.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="symtable.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="reporterror.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tn.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="glob.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
