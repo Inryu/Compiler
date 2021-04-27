@@ -1,100 +1,216 @@
+/*
+* main.c - lexical analyzer for Scanner : main (HW2)
+*
+* Programmer - team2
+*
+* date - 4/27/2021
+*
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "tn.h"
-#include "glob.h"
-
 extern yylex();
 extern char *yytext;
+extern int linenum;
+extern int cErrors;
+extern int yyleng;
 
-void printttoken(enum tnumber tn) {
 
-	//line number 출력
-
+/* printtoken
+* token type별로 line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
+*/
+void printtoken(enum tnumber tn) {
 
 	switch (tn) {
 
 	//주석문
-	case TONECMT: 		
-		printf("%-20d %-20s %-20s %-30s", lineno, "comment", " ", str(yytext));
+
+	//1. 한 줄 주석
+	case TONECMT:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "One line comment", " ", yytext);
 		break;
-	case TMULCMT: printf("Multiple Line Comment\n"); break;
-	case TIDENT: printf("Ident\n"); break;
+	//2. 여러줄 주석
+	case TMULCMT:
+		printf("%-20d %-35s %-20s", linenum, "Multiple line comment", " ");
+		for (int i = 0; i < yyleng; i++) {
+			printf("%c", yytext[i]);
+			if (yytext[i] == '\n')
+			{
+				printf("%-77s","");
+				linenum++;
+			}
+		}
+		printf("\n");
+		break;
 
 	//상수
-	case TDECIMAL: printf("Number\n"); break;
-	case TFIXED: printf("Real Number\n"); break;
-	//예약어
-	case TCONST: printf("Const\n"); break;
-	case TELSE: printf("Else\n"); break;
-	case TIF: printf("If\n"); break;
-	case TINT: printf("Integer\n"); break;
-	case TRETURN: printf("Return\n"); break;
-	case TVOID: printf("Void\n"); break;
-	case TWHILE: printf("While\n"); break;
+	//1. 정수(10진수)
+	case TDECIMAL:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Decimal number", " ", yytext);
+		break;
+	//2. 실수
+	case TFIXED:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Fixed number", " ", yytext);
+		break;
 
-		//사칙연산자
-	case TPLUS: printf("Plus\n"); break;
-	case TMINUS: printf("Minus\n"); break;
-	case TSTAR: printf("Multiplication\n"); break;
-	case TSLASH: printf("divider\n"); break;
-	case TMOD: printf("Mod\n"); break;
+	// Keyword 예약어
+	case TCONST:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Keyword", " ", yytext);
+		break;
 
-		//배정 연산자
-	case TASSIGN: printf("assign\n"); break;
-	case TADDASSIGN: printf("add assign\n"); break;
-	case TSUBASSIGN: printf("sub assign\n"); break;
-	case TMULASSIGN: printf("mul assign\n"); break;
-	case TDIVASSIGN: printf("div assign\n"); break;
-	case TMODASSGIN: printf("mod than\n"); break;
+	case TELSE:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Keyword", " ", yytext);
+		break;
 
-	//논리연산자
-	case TNOT: printf("Not Equal\n"); break;
-	case TAND: printf("And\n"); break;
-	case TOR: printf("Or\n"); break;
+	case TIF:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Keyword", " ", yytext);
+		break;
 
-		//관계연산자
-	case TEQUAL: printf("Equal\n"); break;
-	case TNOTEQU: printf("Not Equal\n"); break;
-	case TLESS: printf("Less\n"); break;
-	case TOVER: printf("Over\n"); break;
-	case TLESSE: printf("Less or Equal\n"); break;  //나중에 레포트에만 명시하기
-	case TOVERE: printf("Over or Equal\n"); break;
+	case TINT: printf("%-20d %-35s %-20s %-30s\n", linenum, "Keyword", " ", yytext);
+		break;
 
-		//증감연산자
-	case TINC: printf("Increase 1\n"); break;
-	case TDEC: printf("Decrease 1\n"); break;
+	case TRETURN:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Keyword", " ", yytext);
+		break;
 
-		//Special Symbols
-	case TOSBRA: printf("Open Small Bracket\n"); break;
-	case TCSBRA: printf("Close Small Bracket\n"); break;
-	case TCOMMA: printf("Comma\n"); break;
-	case TOMBRA: printf("Open Middle Bracket\n"); break;
-	case TCMBRA: printf("Close Middle Bracket\n"); break;
-	case TOLBRA: printf("Open Large Bracket\n"); break;
-	case TCLBRA: printf("Close Large Bracket\n"); break;
-	case TSEMI: printf("Semicolon\n"); break;
+	case TVOID:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Keyword", " ", yytext);
+		break;
 
-		//White Spaces
-	case TBLANK: printf("Blank\n"); break;
-	case TTAB: printf("Tab\n"); break;
-	case TNEWLINE: printf("New Line\n"); break;
+	case TWHILE: printf("%-20d %-35s %-20s %-30s\n", linenum, "Keyword", " ", yytext);
+		break;
+
+	//Operator
+	//1. 사칙연산자
+	case TPLUS:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Plus", " ", yytext);
+		break;
+
+	case TMINUS:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Minus", " ", yytext);
+		break;
+
+	case TSTAR:  printf("%-20d %-35s %-20s %-30s\n", linenum, "Multiplication", " ", yytext);
+		break;
+
+	case TSLASH:printf("%-20d %-35s %-20s %-30s\n", linenum, "Division", " ", yytext);
+		break;
+
+	case TMOD: printf("%-20d %-35s %-20s %-30s\n", linenum, "Modulo", " ", yytext);
+		break;
+
+	//2. 배정 연산자
+	case TASSIGN:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Assign", " ", yytext);
+		break;
+	case TADDASSIGN:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Add assign", " ", yytext);
+		break;
+	case TSUBASSIGN:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Sub assign", " ", yytext);
+		break;
+	case TMULASSIGN:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Mul assign", " ", yytext);
+		break;
+	case TDIVASSIGN:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Div assign", " ", yytext);
+		break;
+	case TMODASSGIN:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Mod than", " ", yytext);
+		break;
+
+	//3. 논리연산자
+	case TNOT:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Not", " ", yytext);
+		break;
+	case TAND:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "And", " ", yytext);
+		break;
+	case TOR:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Or", " ", yytext);
+		break;
+	
+	//4. 관계연산자
+	case TEQUAL:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Equal", " ", yytext);
+		break;
+	case TNOTEQU:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Not equal", " ", yytext);
+		break;
+	case TLESS:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Less", " ", yytext);
+		break;
+	case TOVER:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Over", " ", yytext);
+		break;
+	case TLESSE:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Less or Equal", " ", yytext);
+		break;
+	case TOVERE:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Over or Equal", " ", yytext);
+		break;
+
+
+	//5. 증감연산자
+	case TINC:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Increase one", " ", yytext);
+		break;
+	case TDEC:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Decrease one", " ", yytext);
+		break;
+
+	//Special Symbols
+	case TOSBRA:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Open small bracket", " ", yytext);
+			break;
+	case TCSBRA:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Close small bracket", " ", yytext);
+			break;
+	case TCOMMA:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Comma", " ", yytext);
+			break;
+	case TOMBRA:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Open middle bracket", " ", yytext);
+			break;
+	case TCMBRA:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Close middle bracket", " ", yytext);
+			break;
+	case TOLBRA:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Open large bracket", " ", yytext);
+			break;
+	case TCLBRA:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Close large bracket", " ", yytext);
+			break;
+	case TSEMI:
+		printf("%-20d %-35s %-20s %-30s\n", linenum, "Semicolon", " ", yytext);
+		break;
 	}
 }
 
-
+/* main
+* 헤더 출력 후 printtoken를 호출하여 리턴한 토큰별 결과를 보여줌 (identifier와 error가 있는 경우 제외) , 에러 개수 출력
+*/
 void main()
 {
-	enum tnumber tn;  // token number
-	
+	enum tnumber tn;  // token type
+
 	//print header
-	printf("%-20s %-20s %-20s %-30s", "Line number", "Token type", "ST-index", "Token");
-	
-	//print ttoken
+	printf("=========================================================================================================\n");
+	printf("%-20s %-35s %-20s %-30s\n", "Line number", "Token type", "ST-index", "Token");
+	printf("=========================================================================================================\n");
+
+
+	//print token
 	while ((tn = yylex()) != TEOF) {
-		printttoken(tn);
+		printtoken(tn);
 	}
 
-	//print error
+	//print number of error
+	if (cErrors == 0) {
+		printf("=========================================================================================================\n");
+		printf("No errors detected\n");
+		printf("=========================================================================================================\n");
+
+	}
+	else {
+		printf("=========================================================================================================\n");
+		printf("%d errors detected\n", cErrors);
+		printf("=========================================================================================================\n");
+
+	}
 
 
 }
+

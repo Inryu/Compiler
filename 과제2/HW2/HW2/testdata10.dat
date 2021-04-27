@@ -1,0 +1,16 @@
+// find your estimated gaebokchi time
+
+date start;
+int hour;
+float arr= [ 400, 200.5 , 170, 12.88]
+enum grade;
+
+if (grade =< 2) {
+    arr[grade-1] -= 38 *test; 
+}
+if (grade >=3 && grade <5) {
+     arr[grade-1] -= 6*day;
+}
+else {
+printf(i want to graduate);
+}

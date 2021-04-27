@@ -1,0 +1,23 @@
+/* hello */
+
+/* multi 
+		line
+		comment
+*/
+
+int symbol = 10;
+int i = 0;
+
+for (int i=0; i<=10; i++){
+	if (i%2 == 0){ //even number
+		symbol++;
+	}
+	else{ //odd number
+		symbol--;
+	}
+}
+
+/* last print */
+printf(symbol);
+
+

@@ -4,62 +4,47 @@
 *
 * Programmer - team2
 *
-* date - 4/1/2021
+* date - 4/27/2021
 *
-* modification history
 *
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include "tn.h"
-#include "glob.h"
-extern reporterror(enum tnumber tn);
+#include "tn.h" /* token name definition */
+#include "glob.h" /* global variation */
+extern reporterror(enum tnumber tn);  /* reporterror.c의 에러 출력 함수 */
+extern int linenum; /* 코드의 line number */
+
 %}
 
 %%
 
-[a-zA Z_][a zA Z0 9_]* {
-
-  if(yyleng>MaxIdentLen){
-    reporterror(TLONG);
-  }
-
-  else{
-    SymmbolTable();
-    return (TIDENT);
-  }
-}
- 
- //줄바꿈
- // 1) //
- // 2)/* */
- // 3) /*
- 
- (줄바꿈) */
- 
-[0-9][a-zA-Z_0-9]+ { return (TILLIDENT)}
-\/\/.* return (TONECMT); // 주석 1)
-
  /*
- \/*.*\*\/ {return (TSTARCMT)}; // 주석 2)
+ * Keyword(예약어)
  */
-
-“/*”([^*]|”*”+[^*/])*”*”+”/” return (TMULCMT); // 주석 2), 3) => main에서 줄 바꿈 처리
-
-
-
-
-
-“/*”([^*]|”*”+[^*/])*”*”+”/” return (TMULCMT);
-[+-]?[0-9]+ : return(TDECIMAL);
-[+-]?[0-9]+\\.[0-9]+ : return(TFIXED);
-"const" : return(TCONST);
+"const" return(TCONST);
 "else" return(TELSE);
 "if" return(TIF);
 "int" return(TINT);
 "return" return(TRETURN);
 "void" return(TVOID);
 "while" return(TWHILE);
+
+
+ /*
+ * Identifier(명칭)
+ */
+[0-9]+[a-zA-Z_][a-zA-Z0-9_]* reporterror(TILLIDENT);
+
+ /*
+ * 주석문
+ */
+\/\/.* return (TONECMT);
+\/\*([^*]|\*+[^*/])*\*+\/ return (TMULCMT); 
+
+ /*
+ * Operator (연산자)
+ */
 "+" return(TPLUS);
 "-" return(TMINUS);
 "*" return(TSTAR);
@@ -82,6 +67,10 @@ extern reporterror(enum tnumber tn);
 ">=" return(TOVERE);
 "++" return(TINC);
 "--" return(TDEC);
+
+ /*
+ * Special Symbols
+ */
 "(" return(TOSBRA);
 ")" return(TCSBRA);
 "," return(TCOMMA);
@@ -90,21 +79,43 @@ extern reporterror(enum tnumber tn);
 "[" return(TOLBRA);
 "]" return(TCLBRA);
 ";" return(TSEMI);
-" " return(TBLANK);
-[\t] return(TTAB);
-[\n] {
-  lineno++;
-  return(TNEWLINE);
-}
-.    return(TILLCHAR);
 
- //illegal char
- // ill IDENT
+ /*
+ * White spaces
+ */
+[ \t] ;
+[\n] {
+  linenum++;
+}
+
+ /*
+ * Identifier (명칭)
+ */
+[a-zA-Z_][a-zA-Z0-9_]* {
+
+  if(yyleng>MaxIdentLen){ 
+    reporterror(TLONG);
+  }
+
+  else{
+    SymmbolTable();
+  }
+}
+
+ /*
+ * Constant (상수)
+ */
+[0-9]+  return(TDECIMAL);
+[0-9]+\.[0-9]+ return(TFIXED);
+
+ /*
+ * illegal Symbol
+ */
+.    reporterror(TILLSYM);
 
 
 %%
 int yywrap()
 {
-  printf("	End of Lex\n");
   return 1;
 }
