@@ -1,0 +1,5 @@
+﻿  cal_tab.c
+bison.simple(317): warning C4013: 'yyerror'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+bison.simple(377): warning C4013: 'yylex'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+  Lab1.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\Complier\YACC 실습\실습1\Lab1\Debug\Lab1.exe
+  Lab1.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\Complier\YACC 실습\실습1\Lab1\Debug\Lab1.pdb (Partial PDB)
