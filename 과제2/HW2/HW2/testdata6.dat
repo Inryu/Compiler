@@ -8,8 +8,8 @@ Lksh fje kk ...?   Sakdna
 ¡°*/
 Void Hihi() {
 String isthjs______lo00ng_enough?!.
-    INT R= ¡°This is how i say hi¡±;
-       PRINTF( ¡°!!,¡±);    // this is a single line comment
+    INT R= "This is how i say hi";
+       PRINTF( "!!,");    // this is a single line comment
 *6567*
 9ninenine;
 }
