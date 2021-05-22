@@ -1,0 +1,7 @@
+﻿  symtable.c
+c:\users\delli\desktop\컴파일러 21-1\complier\과제3\hw3\hw3\symtable.c(12): fatal error C1083: 포함 파일을 열 수 없습니다. 'tn.h': No such file or directory
+  reporterror.c
+c:\users\delli\desktop\컴파일러 21-1\complier\과제3\hw3\hw3\reporterror.c(12): fatal error C1083: 포함 파일을 열 수 없습니다. 'tn.h': No such file or directory
+  main.c
+c:\users\delli\desktop\컴파일러 21-1\complier\과제3\hw3\hw3\main.c(11): fatal error C1083: 포함 파일을 열 수 없습니다. 'tn.h': No such file or directory
+  코드를 생성하고 있습니다...

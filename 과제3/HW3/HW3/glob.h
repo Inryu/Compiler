@@ -18,10 +18,7 @@ typedef struct HTentry {
 	int index;
 	int type;
 	HTptr next;
-}
-
-
-//¡Ù¡Ú¡Ù¡Ú!!!!!!!!!!yytext º¸·ù¡Ù¡Ú¡Ù¡Ú
+};
 
 
 HTptr HT[HTsize];

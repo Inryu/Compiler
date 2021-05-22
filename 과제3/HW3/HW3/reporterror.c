@@ -14,7 +14,7 @@
 //extern char *yytext;
 
 //☆★☆★!!!!!!!!!!line 함수 보류=> parser.y에 선언되어있음☆★☆★
-//extern line(int);
+extern line(int);
 extern yylex();
 
 

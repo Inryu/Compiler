@@ -1,5 +1,5 @@
 /*
-* symtable.c - identifier를 ST에 넣고, HT구함 (HW2)
+* symtable.c - identifier를 ST에 넣고, HT구함 (HW3)
 *
 * Programmer - team2
 *
@@ -9,63 +9,40 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h> //exit()
-#include "tn.h"
-extern int linenum;
-extern int yyleng;
-extern char *yytext;
-extern reporterror(enum tnumber tn);
-
-
-#define STsize 1000 // string table 사이즈
-#define HTsize 100 // hash table 사이즈
-#define FALSE 0
-#define TRUE 1
-
-typedef struct HTentry *HTpointer;
-typedef struct HTentry {
-	int index; //ST안에 있는 identifier의 인덱스
-	HTpointer next; //다음 identifier를 가리키는 포인터
-
-}HTentry;
-
-
-HTpointer HT[HTsize];
-char ST[STsize];
-
-int nextid = 0; //현재 identifier
-int nextfree = 0; //the next available index of ST
-int hashcode; //identifier의 hashcode
-int sameid; //identifier의 첫번째 인덱스
-int found; //for the previous ocurrence of a idntifier
-int input;
-
+#include "glob.h"
 
 
 /* PrintHStable - hash table 출력*/
 void PrintHStable()
 {
+	HTptr here;
 	int i, j;
-	HTpointer here;
 
-	printf("\n\n\n\n\n [[  HASH TABLE  ]] \n\n");
+	printf("\n\t [[  HASH TABLE  ]] \n\n");
+	printf("==================================================\n"); 
 
 	for (i = 0; i < HTsize; i++) {
 		if (HT[i] != NULL) {
-			printf("\n  Hash Code %3d : ", i);
+			here = HT[i];
+			do {
+				printf("\tHash Code%4d : (", i);
+				for (j = here->index; ST[j] != "\0"; j++) printf("%c", ST[j]);
+				printf(" : ");
+				switch (here->type){
+					case 1: printf("integer scalar variable)\n"); break;
+					case 2: printf("void scalar variable)\n"); break;
+					case 3: printf("array integer variable)\n"); break;
+					case 4: printf("function)\n"); break;
+					case 5: printf("not defined identifier/function)\n"); break;
+					default: printf("identifier about parse error)\n"); break;
+				}
+				here = here->next;
+			} while (here != NULL);
 		}
-		for (here = HT[i]; here != NULL; here = here->next) {
-			j = here->index;
-			while (ST[j] != '\0' && j < STsize) {
-				printf("%c", ST[j++]);
-				//                printf("      ");
 
-			}
-
-			printf(" ");
-			//            printf("\n");
-		}
 	}
-	printf("\n\n\n < %5d characters are used in the string table > \n ", nextfree);
+	printf("==================================================\n");
+	//printf("\t < %5d characters are used in the string table > \n ", nextfree);
 
 }
 
@@ -90,7 +67,7 @@ LookupHS
 */
 void LookupHS(int nid, int hscode)
 {
-	HTpointer here;
+	HTptr here;
 	int i, j;
 	found = FALSE;
 
@@ -124,9 +101,9 @@ ht[hashcode]리스트가 비어있다면, 해당 identifier의 ST에서 starting index를 값으�
 */
 void ADDHT(int hscode)
 {
-	HTpointer ptr;
+	HTptr ptr;
 
-	ptr = (HTpointer *)malloc(sizeof(ptr));
+	ptr = (HTptr *)malloc(sizeof(ptr));
 	ptr->index = nextid;
 	ptr->next = HT[hscode];
 	HT[hscode] = ptr;
