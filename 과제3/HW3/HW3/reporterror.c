@@ -11,7 +11,7 @@
 #include <string.h>
 #include "tn.h"
 #include "glob.h"
-//extern char *yytext;
+extern char *yytext;
 
 //☆★☆★!!!!!!!!!!line 함수 보류=> parser.y에 선언되어있음☆★☆★
 extern yylex();
@@ -22,7 +22,9 @@ extern yylex();
 * yyerror() - 사용자 error 메세지 직접 출력 함수
 */
 void yyerror(char *s) {
-	printf("%s", s);
+	//printf("-5d %-15s %-50s\n", cLine, "***Error***", s);
+	printf("[%-2d] %-50s\n", cLine, s);
+
 	cErrors++;
 }
 
@@ -35,7 +37,7 @@ void yyerror(char *s) {
 4)TOVERFLOW : ST overflow
 */
 void reporterror(ERRORtypes err) {
-	switch (err) {
+	switch (err) { 
 	case 0: //wrong_st
 		printf("%-5d %-15s %-50s\n", cLine, "***Error***", " Wrong statement");
 		cErrors++;

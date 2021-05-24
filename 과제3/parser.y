@@ -7,7 +7,7 @@
 int type_int =0;
 int type_void=0;
 
-void line(int n);
+
 extern printError();
 extern yylex();
 extern yyerror(char *s);
@@ -38,7 +38,7 @@ function_header    : dcl_spec function_name formal_param
 dcl_spec       : dcl_specifiers   
          ;   
 dcl_specifiers       : dcl_specifier         
-          | dcl_specifiers dcl_specifier   
+          	    | dcl_specifiers dcl_specifier   
          ;
 dcl_specifier       : type_qualifier      
          | type_specifier
@@ -162,12 +162,8 @@ actual_param       : actual_param_list
 actual_param_list    : assignment_exp         
             | actual_param_list TCOMMA assignment_exp    
          ;
-primary_exp       : TIDENT            
+primary_exp   : TIDENT            
               | TNUMBER            
               | TOSBRA expression TCSBRA
          ;
 %%
-void line(int n)
-{   
-   printf("\t %d \t",n);
-}

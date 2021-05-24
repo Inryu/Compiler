@@ -15,8 +15,6 @@
 
 
 extern yyerror(char *s);
-
-
 int i;
 
 %}
@@ -28,20 +26,19 @@ int i;
  /*
  * Keyword(예약어)
  */
-"const" return(TCONST);
+"const" {yyerror("tconst"); return(TCONST);}
 "else" return(TELSE);
 "if" return(TIF);
 "int" return(TINT);
 "return" return(TRETURN);
-"void" return(TVOID);
+"void" {yyerror("tvoid"); return(TVOID);}
 "while" return(TWHILE);
-
 
  /*
  * ILL Identifier
  */
-[0-9]+[a-zA-Z_][a-zA-Z0-9_]* {yyerror("scanner error : start with digit identifier\n");}
-;
+[0-9]+[a-zA-Z_][a-zA-Z0-9_]* {yyerror("scanner error : start with digit identifier");}
+
  /*
  * 주석문
  */
@@ -63,7 +60,7 @@ int i;
 "*" return(TSTAR);
 "/" return(TSLASH);
 "%" return(TMOD);
-"=" return(TASSIGN);
+"=" {yyerror("tassign");return(TASSIGN);}
 "+=" return(TADDASSIGN);
 "-=" return(TSUBASSIGN);
 "*=" return(TMULASSIGN);
@@ -81,17 +78,20 @@ int i;
 "++" return(TINC);
 "--" return(TDEC);
 
+
  /*
  * Special Symbols
  */
-"(" return(TOSBRA);
-")" return(TCSBRA);
-"," return(TCOMMA);
+"(" {yyerror("OPEN small bra"); return(TOSBRA);}
+")" {yyerror("CLOSE small bra"); return(TCSBRA);}
+"," {yyerror("comma");return(TCOMMA);}
 "{" return(TOMBRA);
 "}" return(TCMBRA);
 "[" return(TOLBRA);
 "]" return(TCLBRA);
-';' return(TSEMI);
+";" {return(TSEMI);}
+
+
 
  /*
  * White spaces
@@ -112,19 +112,20 @@ int i;
 
   else{
     SymmbolTable();
+    return (TIDENT);
   }
 }
 
  /*
  * Constant (상수)
  */
-[0-9]+  return(TNUMBER);
+[0-9]+  {yyerror("tnumber"); return(TNUMBER);}
 [0-9]+\.[0-9]+ return(TFLOAT);
 
  /*
  * illegal Symbol
  */
-.   {yyerror("scanner error : illegal separator\n");}
+.   {yyerror("scanner error : illegal separator");}
 
 %%
 

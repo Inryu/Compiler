@@ -146,7 +146,7 @@ int SymmbolTable()
 
 	if (!found) { // 아직 같은 identifier를 ST에 넣은 적 없을 때
 				  // line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
-		printf("%-20d %-35s %-20d %-30s\n", cLine, "Identifier", nextid, yytext);
+		printf("[%-2d] %-35s %-30s\n", cLine, "Identifier", yytext);
 		ADDHT(hashcode); // HT 삽입
 	}
 	else { // 이미 같은 identifier가 있을 때

@@ -15,16 +15,22 @@ extern void PrintHStable();
 
 void main() {
 
-
-	printf("\n\t[Error Report : Error Information]");
-	printf("\n == == == == == == == == == == == == == == == == == == == = \n");
+	printf("=============================================================================== \n");
+	printf("\t\t***MiniC parsing begins***\n\n");
 
 
 	cLine = 1;
 	yyparse();
 
-	if (cErrors == 0) printf("\n\t no errors detected\n");
-	else printf("\n\y %d error(s) detected\n", cErrors);
-	printf(" == == == == == == == == == == == == == == == == == == == = \n");
-	PrintHStable();
+	printf("\n\t\t***Parsing ends.***\n");
+	printf("=============================================================================== \n");
+
+
+	if (cErrors == 0) { 
+		printf("\n\t no errors detected\n"); 
+		PrintHStable();
+
+	}
+
+	else printf("\n\t %d error(s) detected\n", cErrors);
 }
