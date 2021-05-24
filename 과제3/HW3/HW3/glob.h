@@ -3,7 +3,7 @@
 *
 * Programmer - team2
 *
-* date - 
+* date -
 *
 */
 
@@ -11,7 +11,7 @@
 #define HTsize 100
 #define FALSE 0
 #define TRUE 1
-
+#define MaxIdentLen 12
 
 typedef struct HTentry *HTptr;
 typedef struct HTentry {
@@ -28,9 +28,10 @@ int nextid;      //현재 identifier의 시작 index
 int nextfree;    //ST에서 다음 character가 삽입될 곳의 index
 int hashcode;
 int sameid;
+int yyleng;
+char *yytext;
 
-
-enum errorTypes { wrong_st, wrong_funcdef, nosemi, nobrace, nobracket };
+enum errorTypes { wrong_st, wrong_funcdef, nosemi, nobrace, nobracket, tlong, toverflow };
 typedef enum errorTypes ERRORtypes;
 ERRORtypes err;
 
@@ -38,4 +39,3 @@ int cErrors; //error count
 int cLine; //line number
 
 int found;
-

@@ -26,7 +26,7 @@ int i;
 %%
 
  /*
- * Keyword(¿¹¾à¾î)
+ * Keyword(ì˜ˆì•½ì–´)
  */
 "const" return(TCONST);
 "else" return(TELSE);
@@ -43,20 +43,20 @@ int i;
 [0-9]+[a-zA-Z_][a-zA-Z0-9_]* {yyerror("scanner error : start with digit identifier\n");}
 ;
  /*
- * ÁÖ¼®¹®
+ * ì£¼ì„ë¬¸
  */
 \/\/.* ;
 \/\*([^*]|\*+[^*/])*\*+\/ {
-	for(i=0;i<yyleng;i++){
-		if(yytext[i]=='\n') cLine++;
-	}
+   for(i=0;i<yyleng;i++){
+      if(yytext[i]=='\n') cLine++;
+   }
 
 }
 
 
 
  /*
- * Operator (¿¬»êÀÚ)
+ * Operator (ì—°ì‚°ì)
  */
 "+" return(TPLUS);
 "-" return(TMINUS);
@@ -68,7 +68,7 @@ int i;
 "-=" return(TSUBASSIGN);
 "*=" return(TMULASSIGN);
 "/=" return(TDIVASSIGN);
-"%=" return(TMODASSGIN);
+"%=" return(TMODASSIGN);
 "!" return(TNOT);
 "&&" return(TAND);
 "||" return(TOR);
@@ -91,7 +91,7 @@ int i;
 "}" return(TCMBRA);
 "[" return(TOLBRA);
 "]" return(TCLBRA);
-";" return(TSEMI);
+';' return(TSEMI);
 
  /*
  * White spaces
@@ -101,13 +101,13 @@ int i;
   cLine++;
 }
 
-/*
- * Identifier (¸íÄª)
- */
+ /*
+ * Identifier (ëª…ì¹­)
+  */
 [a-zA-Z_][a-zA-Z0-9_]* {
 
   if(yyleng>MaxIdentLen){ 
-    reporterror(TLONG);
+    reporterror(tlong);
   }
 
   else{
@@ -116,7 +116,7 @@ int i;
 }
 
  /*
- * Constant (»ó¼ö)
+ * Constant (ìƒìˆ˜)
  */
 [0-9]+  return(TNUMBER);
 [0-9]+\.[0-9]+ return(TFLOAT);
@@ -125,4 +125,11 @@ int i;
  * illegal Symbol
  */
 .   {yyerror("scanner error : illegal separator\n");}
+
+%%
+
+int yywrap(){
+  return 1;
+}
+
 

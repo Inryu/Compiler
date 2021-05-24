@@ -3,12 +3,11 @@
 *
 * Programmer - team2
 *
-* date - 
+* date -
 *
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include "tn.h"
 #include "glob.h"
 
 extern int yyparse();
@@ -27,8 +26,5 @@ void main() {
 	if (cErrors == 0) printf("\n\t no errors detected\n");
 	else printf("\n\y %d error(s) detected\n", cErrors);
 	printf(" == == == == == == == == == == == == == == == == == == == = \n");
-	PrintHStable(); //identifier 와 type을 print하는 함수
+	PrintHStable();
 }
-}
-
-

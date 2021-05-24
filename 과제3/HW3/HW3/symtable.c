@@ -10,6 +10,8 @@
 #include <string.h>
 #include <stdlib.h> //exit()
 #include "glob.h"
+#include "tn.h"
+
 
 
 /* PrintHStable - hash table 출력*/
@@ -19,7 +21,7 @@ void PrintHStable()
 	int i, j;
 
 	printf("\n\t [[  HASH TABLE  ]] \n\n");
-	printf("==================================================\n"); 
+	printf("==================================================\n");
 
 	for (i = 0; i < HTsize; i++) {
 		if (HT[i] != NULL) {
@@ -28,13 +30,13 @@ void PrintHStable()
 				printf("\tHash Code%4d : (", i);
 				for (j = here->index; ST[j] != "\0"; j++) printf("%c", ST[j]);
 				printf(" : ");
-				switch (here->type){
-					case 1: printf("integer scalar variable)\n"); break;
-					case 2: printf("void scalar variable)\n"); break;
-					case 3: printf("array integer variable)\n"); break;
-					case 4: printf("function)\n"); break;
-					case 5: printf("not defined identifier/function)\n"); break;
-					default: printf("identifier about parse error)\n"); break;
+				switch (here->type) {
+				case 1: printf("integer scalar variable)\n"); break;
+				case 2: printf("void scalar variable)\n"); break;
+				case 3: printf("array integer variable)\n"); break;
+				case 4: printf("function)\n"); break;
+				case 5: printf("not defined identifier/function)\n"); break;
+				default: printf("identifier about parse error)\n"); break;
 				}
 				here = here->next;
 			} while (here != NULL);
@@ -112,12 +114,12 @@ void ADDHT(int hscode)
 
 /*
 MAIN
-*	identifier로 인식된 token을 한 글자씩 ST에 넣음. (yytext, yyleng이용)
-*	해당 identifier의 hashcode값을 계산.
-*	HT[hashcode]에 identifier가 이미 있는지 확인
-*	이미 있으면, 현재 읽은 identifier를 ST에서 삭제
-*	아직 없으면, HT[hashcode]의 index에 identifier의 ST에서의 첫 인덱스 값을 넣음
-*	identifier에 대해 line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
+*   identifier로 인식된 token을 한 글자씩 ST에 넣음. (yytext, yyleng이용)
+*   해당 identifier의 hashcode값을 계산.
+*   HT[hashcode]에 identifier가 이미 있는지 확인
+*   이미 있으면, 현재 읽은 identifier를 ST에서 삭제
+*   아직 없으면, HT[hashcode]의 index에 identifier의 ST에서의 첫 인덱스 값을 넣음
+*   identifier에 대해 line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
 */
 int SymmbolTable()
 {
@@ -127,7 +129,7 @@ int SymmbolTable()
 
 	//ST overflow 발생 시
 	if (nextfree == STsize) {
-		reporterror(TOVERFLOW);
+		reporterror(toverflow);
 	}
 
 	// yytext 한글자씩 ST에 넣음
@@ -135,22 +137,22 @@ int SymmbolTable()
 		ST[nextfree++] = yytext[i];
 	}
 	// identifier를 다 넣은 후
-	ST[nextfree++]= '\0';
+	ST[nextfree++] = '\0';
 
 	// HS계산, 각 identifer에 대해, hastable에 이미 있는지 확인
 	ComputeHS(nextid, nextfree);
 	LookupHS(nextid, hashcode);
-	
+
 
 	if (!found) { // 아직 같은 identifier를 ST에 넣은 적 없을 때
-		// line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
-		printf("%-20d %-35s %-20d %-30s\n", linenum, "Identifier", nextid, yytext);
+				  // line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
+		printf("%-20d %-35s %-20d %-30s\n", cLine, "Identifier", nextid, yytext);
 		ADDHT(hashcode); // HT 삽입
 	}
 	else { // 이미 같은 identifier가 있을 때
 
-		// line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
-		printf("%-20d %-35s %-20d %-30s\n", linenum, "Identifier", sameid, yytext);
+		   // line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
+		printf("%-20d %-35s %-20d %-30s\n", cLine, "Identifier", sameid, yytext);
 		nextfree = nextid; //이번에 ST에 읽은 identifier를 다음에 덮어씀
 	}
 
@@ -164,6 +166,4 @@ int SymmbolTable()
 	printf("\n\n\n");
 	*/
 
-	}
-
-
+}

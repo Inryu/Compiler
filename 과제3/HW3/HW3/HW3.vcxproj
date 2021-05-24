@@ -73,8 +73,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
     </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -111,9 +114,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="glob.h" />
+    <ClInclude Include="tn.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="lex.yy.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="parser_tab.c" />
     <ClCompile Include="reporterror.c" />
     <ClCompile Include="symtable.c" />
   </ItemGroup>

@@ -18,6 +18,9 @@
     <ClInclude Include="glob.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="tn.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -27,6 +30,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="symtable.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="parser_tab.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="lex.yy.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

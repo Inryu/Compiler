@@ -1,7 +1,9 @@
-﻿  symtable.c
-c:\users\delli\desktop\컴파일러 21-1\complier\과제3\hw3\hw3\symtable.c(12): fatal error C1083: 포함 파일을 열 수 없습니다. 'tn.h': No such file or directory
-  reporterror.c
-c:\users\delli\desktop\컴파일러 21-1\complier\과제3\hw3\hw3\reporterror.c(12): fatal error C1083: 포함 파일을 열 수 없습니다. 'tn.h': No such file or directory
-  main.c
-c:\users\delli\desktop\컴파일러 21-1\complier\과제3\hw3\hw3\main.c(11): fatal error C1083: 포함 파일을 열 수 없습니다. 'tn.h': No such file or directory
-  코드를 생성하고 있습니다...
+﻿  lex.yy.c
+c:\users\delli\desktop\컴파일러 21-1\complier\과제3\hw3\hw3\lex.yy.c : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+c:\users\delli\desktop\컴파일러 21-1\complier\과제3\hw3\hw3\glob.h(21): warning C4091: 'typedef ': 변수를 선언하지 않으면 'HTentry' 왼쪽은 무시됩니다.
+scanner.l(110): warning C4013: 'reporterror'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+scanner.l(114): warning C4013: 'SymmbolTable'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+lex.yy.c(1539): warning C4996: 'fileno': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _fileno. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(2450): note: 'fileno' 선언을 참조하십시오.
+  HW3.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\Complier\과제3\HW3\Debug\HW3.exe
+  HW3.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\Complier\과제3\HW3\Debug\HW3.pdb (Partial PDB)
