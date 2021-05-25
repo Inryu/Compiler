@@ -103,12 +103,25 @@ ht[hashcode]리스트가 비어있다면, 해당 identifier의 ST에서 starting index를 값으�
 */
 void ADDHT(int hscode)
 {
-	HTptr ptr;
+	HTptr tmp;
 
-	ptr = (HTptr *)malloc(sizeof(ptr));
-	ptr->index = nextid;
-	ptr->next = HT[hscode];
-	HT[hscode] = ptr;
+	if (HT[hscode] == NULL) {
+		tmp = (HTptr)malloc(sizeof(struct HTentry));
+		tmp->type = 0;
+		tmp->next = NULL;
+		HT[hscode] = tmp;
+		tmp->index = nextid;
+	}
+	else {
+		tmp = (HTptr)malloc(sizeof(struct HTentry));
+		tmp->type = 0;
+		tmp->index = nextid;
+		tmp->next = HT[hscode];
+		HT[hscode] = tmp;
+
+		look_id = tmp;
+	}
+
 }
 
 

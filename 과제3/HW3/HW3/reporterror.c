@@ -17,7 +17,6 @@ extern char *yytext;
 extern yylex();
 
 
-
 /*
 * yyerror() - 사용자 error 메세지 직접 출력 함수
 */

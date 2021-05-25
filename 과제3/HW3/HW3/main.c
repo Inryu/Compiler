@@ -15,11 +15,18 @@ extern void PrintHStable();
 
 void main() {
 
+	look_id = (HTptr)malloc(sizeof(struct HTentry));
+	look_tmp = (HTptr)malloc(sizeof(struct HTentry));
+
+
 	printf("=============================================================================== \n");
 	printf("\t\t***MiniC parsing begins***\n\n");
 
 
 	cLine = 1;
+	nextid = 0;
+	nextfree = 0;
+
 	yyparse();
 
 	printf("\n\t\t***Parsing ends.***\n");

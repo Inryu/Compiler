@@ -7,6 +7,7 @@
 *
 */
 
+
 #define STsize 1000
 #define HTsize 100
 #define FALSE 0
@@ -14,6 +15,7 @@
 #define MaxIdentLen 12
 
 typedef struct HTentry *HTptr;
+
 typedef struct HTentry {
 	int index;
 	int type;
@@ -22,6 +24,10 @@ typedef struct HTentry {
 
 
 HTptr HT[HTsize];
+HTptr look_id;
+HTptr look_tmp;
+
+
 char ST[STsize];
 
 int nextid;      //현재 identifier의 시작 index
