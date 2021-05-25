@@ -927,6 +927,7 @@ YY_RULE_SETUP
 
   if(yyleng>MaxIdentLen){ 
     reporterror(tlong);
+    return(TLONG);
   }
 
   else{
@@ -965,12 +966,12 @@ YY_RULE_SETUP
  */
 case 45:
 YY_RULE_SETUP
-#line 154 "scanner.l"
+#line 155 "scanner.l"
 {return(TNUMBER);}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 155 "scanner.l"
+#line 156 "scanner.l"
 return(TPOINT);
 	YY_BREAK
 /*
@@ -978,15 +979,15 @@ return(TPOINT);
  */
 case 47:
 YY_RULE_SETUP
-#line 160 "scanner.l"
+#line 161 "scanner.l"
 {yyerror("scanner error : illegal separator");}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 162 "scanner.l"
+#line 163 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 990 "lex.yy.c"
+#line 991 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1846,7 +1847,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 162 "scanner.l"
+#line 163 "scanner.l"
 
 
 int yywrap(){

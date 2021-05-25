@@ -3,6 +3,14 @@
 
 */
 
+int a
+
+int factorial(int n)
+{
+	if(n==1) return 1;
+	else return n*factorial(n-1);
+}
+
 void main(){
 
 	int n, f;
@@ -11,10 +19,5 @@ void main(){
 	f=factorial(n);
 	write(f);
 
-}
 
-int factorial(int n)
-{
-	if(n==1) return 1;
-	else return n*factorial(n-1);
-}
+

@@ -1,6 +1,5 @@
 const int max=100;
 
-const int 48min=0;
 
 void main(){
 

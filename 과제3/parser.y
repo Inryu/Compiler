@@ -82,9 +82,11 @@ function_name    : TIDENT
                         type_float=0;
                         look_tmp=look_id;
                   }
-}
+                  }
+                  |TILLIDENT
+                  |TLONG;
 
-      ;            
+            
 formal_param       : TOSBRA opt_formal_param TCSBRA
          ;   
 opt_formal_param    : formal_param_list      
@@ -177,7 +179,8 @@ declarator    : TIDENT{
                   yyerrok;
                   reporterror(nobracket);
             }
-            |TILLIDENT;
+            |TILLIDENT
+            |TLONG;
 
          
 opt_number       : TNUMBER 

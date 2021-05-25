@@ -115,6 +115,7 @@ int i;
 
   if(yyleng>MaxIdentLen){ 
     reporterror(tlong);
+    return(TLONG);
   }
 
   else{
@@ -136,12 +137,9 @@ int i;
     LookupHS(nextid, hashcode);
 
     if (!found) {    
-      // printf("[%-2d] %-35s %-30s\n", cLine, "Identifier", yytext);
-      
       ADDHT(hashcode);
     }
     else {
-      // printf("[%-2d] %-35s %-30s\n", cLine, "Identifier", yytext);
       nextfree = nextid;
     }
     return (TIDENT);
