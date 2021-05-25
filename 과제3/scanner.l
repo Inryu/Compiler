@@ -42,7 +42,10 @@ int i;
  /*
  * ILL Identifier
  */
-[0-9]+[a-zA-Z_][a-zA-Z0-9_]* {yyerror("scanner error : start with digit identifier");}
+[0-9]+[a-zA-Z_][a-zA-Z0-9_]* {
+    yyerror("scanner error : start with digit identifier");
+    return (TILLIDENT);
+}
 
  /*
  * 주석문

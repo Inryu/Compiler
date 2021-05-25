@@ -1,15 +1,16 @@
 const int max=100;
+
+const int 48min=0;
+
 void main(){
 
  int i,j,k
-
-
-
  ;
- const int min=0;
+
+ 
+ const int 48min=0;
+
  float inryu=163.7
-
-
  ;
  int a[5];
  float a2[10];

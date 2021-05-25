@@ -37,7 +37,7 @@ translation_unit    : external_dcl
          ;
 external_dcl       : function_def         
            | declaration
-         ;            
+               
 function_def      : function_header compound_st
                   |function_header TSEMI
                   |function_header error
@@ -83,6 +83,7 @@ function_name    : TIDENT
                         look_tmp=look_id;
                   }
 }
+
       ;            
 formal_param       : TOSBRA opt_formal_param TCSBRA
          ;   
@@ -176,7 +177,9 @@ declarator    : TIDENT{
                   yyerrok;
                   reporterror(nobracket);
             }
-         ;
+            |TILLIDENT;
+
+         
 opt_number       : TNUMBER 
               | TPOINT        
               |   
@@ -275,6 +278,7 @@ primary_exp   : TIDENT
               | TNUMBER       
               | TPOINT     
               | TOSBRA expression TCSBRA
+                          
          ;
 %%
 

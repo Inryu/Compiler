@@ -1,4 +1,4 @@
-﻿  main.c
+﻿  reporterror.c
 c:\users\delli\desktop\컴파일러 21-1\complier\과제3\hw3\hw3\glob.h(24): warning C4091: 'typedef ': 변수를 선언하지 않으면 'HTentry' 왼쪽은 무시됩니다.
   HW3.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\Complier\과제3\HW3\Debug\HW3.exe
   HW3.vcxproj -> C:\Users\delli\Desktop\컴파일러 21-1\Complier\과제3\HW3\Debug\HW3.pdb (Partial PDB)

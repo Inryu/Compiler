@@ -23,7 +23,7 @@ extern yylex();
 void yyerror(char *s) {
 	//printf("-5d %-15s %-50s\n", cLine, "***Error***", s);
 	if (s != "parse error") {
-		printf("\t %-5d %-50s\n", cLine, s);
+		printf("\t%-5d %-10s %-50s\n", cLine, yytext,s);
 		cErrors++;
 	}
 }
@@ -69,9 +69,6 @@ void reporterror(ERRORtypes err) {
 		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Overflow");
 		cErrors++;
 		break;
-
-
-		//¡Ù¡Ú¡Ù¡Ú!!!!!!!!!!¼Ò°ýÈ£´Â?¡Ù¡Ú¡Ù¡Ú
 
 	}
 }
