@@ -31,16 +31,20 @@ void PrintHStable()
 				for (j = here->index; ST[j] != '\0'; j++) printf("%c", ST[j]);
 				printf(" : ");
 				switch (here->type) {
-				case 1: printf("integer scalar variable)\n"); break;
-				case 2: printf("void scalar variable)\n"); break;
-				case 3: printf("array integer variable)\n"); break;
-				case 4: printf("function)\n"); break;
-				case 5: printf("not defined identifier/function)\n"); break;
-				default: printf("identifier about parse error)\n"); break;
+				case 1: printf("integer scalar variable, line%d)\n",here->cLine); break;
+				case 2: printf("void scalar variable, line%d)\n", here->cLine); break;
+				case 3: printf("array integer variable, line%d)\n", here->cLine); break;
+				case 4: printf("function, line%d)\n", here->cLine); break;
+				case 5: printf("not defined identifier/function, line%d)\n", here->cLine); break;
+				case 6 : printf("float scalar variable, line%d)\n", here->cLine); break;
+				case 7: printf("array float variable, line%d)\n", here->cLine); break;
+				default: printf("identifier about parse error, line%d)\n", here->cLine); break;
 				}
 				here = here->next;
 			} while (here != NULL);
 		}
+
+
 
 	}
 	printf("==================================================\n");
@@ -114,6 +118,7 @@ void ADDHT(int hscode)
 		tmp = (HTptr)malloc(sizeof(struct HTentry));
 		tmp->type = 0;
 		tmp->next = NULL;
+		tmp->cLine = cLine;
 		HT[hscode] = tmp;
 		tmp->index = nextid;
 	}
@@ -122,6 +127,7 @@ void ADDHT(int hscode)
 		tmp->type = 0;
 		tmp->index = nextid;
 		tmp->next = HT[hscode];
+		tmp->cLine = cLine;
 		HT[hscode] = tmp;
 	}
 	look_id = tmp;

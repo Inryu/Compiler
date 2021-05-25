@@ -8,6 +8,7 @@
 
 int type_int =0;
 int type_void=0;
+int type_float=0;
 
 
 extern reporterror();
@@ -16,7 +17,7 @@ extern yyerror(char *s);
 
 %}
 
-%token TCONST TELSE TIF TINT TRETURN  TVOID TWHILE
+%token TCONST TELSE TIF TINT TRETURN  TVOID TWHILE TPOINT
 %token TPLUS TMINUS TSTAR TSLASH TMOD TASSIGN TADDASSIGN TSUBASSIGN TMULASSIGN TDIVASSIGN TMODASSIGN TOR TEQUAL TNOTEQU TLESS TOVER TLESSE TINC TDEC
 %token TOSBRA TCSBRA TCOMMA TOMBRA TCMBRA TOLBRA TCLBRA TSEMI
 %token TNUMBER TFLOAT TLONG TNOT TAND TOVERE TILLIDENT TONECMT TMULCMT
@@ -62,6 +63,7 @@ type_qualifier       : TCONST
          ;            
 type_specifier    : TINT {type_int=1;}           
           | TVOID {type_void=1;}
+          | TFLOAT {type_float=1;}
          ;
                
 function_name    : TIDENT
@@ -71,6 +73,7 @@ function_name    : TIDENT
                         look_id->type=4;
                         type_int=0;
                         type_void=0;
+                        type_float=0;
                         look_tmp=look_id;
                   }
 }
@@ -101,12 +104,14 @@ declaration_list    : declaration
 declaration       : dcl_spec init_dcl_list TSEMI{
                         type_int=0;
                         type_void=0;
+                        type_float=0;
                   }
                   | dcl_spec init_dcl_list error{
                         look_tmp->type=0;
                         yyerrok;
                         type_int=0;
                         type_void=0;
+                        type_float=0;
                         reporterror(nosemi);
                   }
          ;
@@ -114,7 +119,8 @@ init_dcl_list       : init_declarator
          | init_dcl_list TCOMMA init_declarator 
          ;   
 init_declarator    : declarator            
-          | declarator TASSIGN TNUMBER   
+          | declarator TASSIGN TNUMBER 
+          | declarator TASSIGN TPOINT    
          ;
 declarator    : TIDENT{
                   if(look_id->type==0){
@@ -122,14 +128,16 @@ declarator    : TIDENT{
                               look_id->type=1;
                         else if(type_void==1)
                               look_id->type=2;
+                        else if(type_float==1)
+                              look_id->type=6;
                   }
                   look_tmp=look_id;
             }               
             | TIDENT TOLBRA opt_number TCLBRA 
             {
                   if(look_id->type==0){
-                        look_id->type=3;
-                       
+                        if(type_int==1)look_id->type=3;
+                        else if(type_float==1) look_id->type=7;                      
                   }
 
                    look_tmp=look_id;
@@ -140,7 +148,8 @@ declarator    : TIDENT{
                   reporterror(nobracket);
             }
          ;
-opt_number       : TNUMBER         
+opt_number       : TNUMBER 
+              | TPOINT        
               |   
          ;         
 opt_stat_list       : statement_list      
@@ -148,6 +157,7 @@ opt_stat_list       : statement_list
          ;         
 statement_list       : statement         
           | statement_list statement    
+          | statement_list declaration
          ;
 statement       : compound_st         
             | expression_st         
@@ -229,11 +239,12 @@ actual_param_list    : assignment_exp
          ;
 primary_exp   : TIDENT
             {
-                  if(look_id->type=0)
+                  if(look_id->type==0)
                         look_id->type=5;
 
             }            
-              | TNUMBER            
+              | TNUMBER       
+              | TPOINT     
               | TOSBRA expression TCSBRA
          ;
 %%

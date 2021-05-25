@@ -19,6 +19,7 @@ typedef struct HTentry *HTptr;
 typedef struct HTentry {
 	int index;
 	int type;
+	int cLine;
 	HTptr next;
 };
 

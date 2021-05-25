@@ -33,9 +33,11 @@ int i;
 "else" return(TELSE);
 "if" return(TIF);
 "int" return(TINT);
+"float" return(TFLOAT);
 "return" return(TRETURN);
 "void" {return(TVOID);}
 "while" return(TWHILE);
+
 
  /*
  * ILL Identifier
@@ -147,7 +149,7 @@ int i;
  * Constant (상수)
  */
 [0-9]+  {return(TNUMBER);}
-[0-9]+\.[0-9]+ return(TFLOAT);
+[0-9]+\.[0-9]+ return(TPOINT);
 
  /*
  * illegal Symbol
