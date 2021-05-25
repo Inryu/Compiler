@@ -28,7 +28,7 @@ void PrintHStable()
 			here = HT[i];
 			do {
 				printf("\tHash Code%4d : (", i);
-				for (j = here->index; ST[j] != "\0"; j++) printf("%c", ST[j]);
+				for (j = here->index; ST[j] != '\0'; j++) printf("%c", ST[j]);
 				printf(" : ");
 				switch (here->type) {
 				case 1: printf("integer scalar variable)\n"); break;
@@ -54,12 +54,17 @@ void PrintHStable()
 */
 void ComputeHS(int nid, int nfree)
 {
-	int code, i;
-	code = 0;
+	//int code, i;
+	//code = 0;
+	//for (i = nid; i < nfree - 1; i++) {
+	//	code += (int)ST[i]; //아스키 코드 합
+	//	hashcode = code % HTsize; //mod
+	//}
+	int i, func = 0;
 	for (i = nid; i < nfree - 1; i++) {
-		code += (int)ST[i]; //아스키 코드 합
-		hashcode = code % HTsize; //mod
+		func += (int)ST[nid++];
 	}
+	hashcode = func%HTsize;
 }
 
 /*
@@ -118,9 +123,8 @@ void ADDHT(int hscode)
 		tmp->index = nextid;
 		tmp->next = HT[hscode];
 		HT[hscode] = tmp;
-
-		look_id = tmp;
 	}
+	look_id = tmp;
 
 }
 

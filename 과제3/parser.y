@@ -33,6 +33,11 @@ translation_unit    : external_dcl
          ;
 external_dcl       : function_def         
            | declaration
+           | TIDENT TSEMI
+           | TIDENT error{
+                 yyerrok;
+                 reporterror(wrong_st)
+           }
          ;            
 function_def      : function_header compound_st
                   |function_header TSEMI
