@@ -20,8 +20,8 @@ void PrintHStable()
 	HTptr here;
 	int i, j;
 
-	printf("\n\t [[  HASH TABLE  ]] \n\n");
-	printf("==================================================\n");
+	printf("\n\t\t\t\t***HASH TABLE***\n");
+	printf("==================================================================================\n");
 
 	for (i = 0; i < HTsize; i++) {
 		if (HT[i] != NULL) {
@@ -30,14 +30,30 @@ void PrintHStable()
 				printf("\tHash Code%4d : (", i);
 				for (j = here->index; ST[j] != '\0'; j++) printf("%c", ST[j]);
 				printf(" : ");
+				
 				switch (here->type) {
 				case 1: printf("integer scalar variable, line%d)\n",here->cLine); break;
 				case 2: printf("void scalar variable, line%d)\n", here->cLine); break;
 				case 3: printf("array integer variable, line%d)\n", here->cLine); break;
-				case 4: printf("function, line%d)\n", here->cLine); break;
+
+				//void function
+				case 4: printf("function, return type=void, line%d)\n", here->cLine); break;
 				case 5: printf("not defined identifier/function, line%d)\n", here->cLine); break;
 				case 6 : printf("float scalar variable, line%d)\n", here->cLine); break;
 				case 7: printf("array float variable, line%d)\n", here->cLine); break;
+				//int function
+				case 8: printf("function, return type=int, line%d)\n", here->cLine); break;
+				//float function
+				case 9:printf("function, return type=float, line%d)\n", here->cLine); break;
+				
+				//int scalar param
+				case 10: printf("integer scalar parameter, line%d)\n", here->cLine); break;
+
+				//float scalar param
+				case 11: printf("float scalar parameter, line%d)\n", here->cLine); break;
+
+			
+				
 				default: printf("identifier about parse error, line%d)\n", here->cLine); break;
 				}
 				here = here->next;
@@ -47,7 +63,7 @@ void PrintHStable()
 
 
 	}
-	printf("==================================================\n");
+	printf("==================================================================================\n");
 	//printf("\t < %5d characters are used in the string table > \n ", nextfree);
 
 }

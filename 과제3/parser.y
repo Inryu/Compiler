@@ -10,6 +10,9 @@ int type_int =0;
 int type_void=0;
 int type_float=0;
 
+int param_int=0;
+int param_float=0;
+
 
 extern reporterror();
 extern yylex();
@@ -34,11 +37,6 @@ translation_unit    : external_dcl
          ;
 external_dcl       : function_def         
            | declaration
-           | TIDENT TSEMI
-           | TIDENT error{
-                 yyerrok;
-                 reporterror(wrong_st)
-           }
          ;            
 function_def      : function_header compound_st
                   |function_header TSEMI
@@ -70,7 +68,15 @@ function_name    : TIDENT
                   
                   {
                   if(look_id->type==0||look_id->type==5){
-                        look_id->type=4;
+                        
+                        if(type_void==1){
+                              look_id->type=4;
+                        }else if(type_int==1){
+                              look_id->type=8;
+                        }else if(type_float==1){
+                              look_id->type=9;
+                        }
+                    
                         type_int=0;
                         type_void=0;
                         type_float=0;
@@ -78,15 +84,29 @@ function_name    : TIDENT
                   }
 }
       ;            
-formal_param       : TOSBRA opt_formal_param TCSBRA 
+formal_param       : TOSBRA opt_formal_param TCSBRA
          ;   
 opt_formal_param    : formal_param_list      
             |   
          ;         
-formal_param_list    : param_dcl         
+formal_param_list    : param_dcl 
              | formal_param_list TCOMMA param_dcl    
          ;
-param_dcl       : dcl_spec declarator   
+param_dcl       : dcl_spec declarator{
+                  if(type_int==1){
+                        param_int=1;
+                        look_id->type=10;
+                  }else if(type_float==1){
+                        param_float=1;
+                        look_id->type=11;
+                  }
+                  type_int=0;
+                  type_void=0;
+                  type_float=0;
+                  param_int=0;
+                  param_float=0;
+
+}    
          ;   
 compound_st       : TOMBRA opt_dcl_list opt_stat_list TCMBRA
                   | TOMBRA opt_dcl_list opt_stat_list error
@@ -124,14 +144,23 @@ init_declarator    : declarator
          ;
 declarator    : TIDENT{
                   if(look_id->type==0){
-                        if(type_int==1)
-                              look_id->type=1;
+                        if(type_int==1){
+                              if(param_int==1){
+                                    look_id->type=10;
+                              }
+                              else{look_id->type=1;}
+                        }
                         else if(type_void==1)
                               look_id->type=2;
-                        else if(type_float==1)
-                              look_id->type=6;
+                        else if(type_float==1){
+                              if(param_float==1){
+                                    look_id->type=11;
+                              }
+                              else{look_id->type=6;}
+                        }     
                   }
                   look_tmp=look_id;
+
             }               
             | TIDENT TOLBRA opt_number TCLBRA 
             {

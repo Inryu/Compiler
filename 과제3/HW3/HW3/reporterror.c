@@ -22,9 +22,10 @@ extern yylex();
 */
 void yyerror(char *s) {
 	//printf("-5d %-15s %-50s\n", cLine, "***Error***", s);
-	printf("[%-2d] %-50s\n", cLine, s);
-
-	cErrors++;
+	if (s != "parse error") {
+		printf("\t %-5d %-50s\n", cLine, s);
+		cErrors++;
+	}
 }
 
 
@@ -38,34 +39,34 @@ void yyerror(char *s) {
 void reporterror(ERRORtypes err) {
 	switch (err) { 
 	case 0: //wrong_st
-		printf("%-5d %-15s %-50s\n", cLine, "***Error***", " Wrong statement");
+		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Wrong statement");
 		cErrors++;
 		break;
 
 	case 1: //wrong_funcdef
-		printf("%-5d %-15s %-50s\n", cLine, "***Error***", " Wrong function definition");
+		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Wrong function definition");
 		cErrors++;
 		break;
 
 	case 2: //nosemi
-		printf("%-5d %-15s %-50s\n", cLine, "***Error***", " Missing semicolon");
+		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Missing semicolon");
 		cErrors++;
 		break;
 
 	case 3: //nobrace (Áß°ýÈ£)
-		printf("%-5d %-15s %-50s\n", cLine, "***Error***", " Missing brace");
+		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Missing brace");
 		cErrors++;
 		break;
 	case 4: //nobraket (´ë°ýÈ£)
-		printf("%-5d %-15s %-50s\n", cLine, "***Error***", " Missing bracket");
+		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Missing bracket");
 		cErrors++;
 		break;
 	case 5: //long 
-		printf("%-5d %-15s %-50s\n", cLine, "***Error***", " Long identifier");
+		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Long identifier");
 		cErrors++;
 		break;
 	case 6:
-		printf("%-5d %-15s %-50s\n", cLine, "***Error***", " Overflow");
+		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Overflow");
 		cErrors++;
 		break;
 

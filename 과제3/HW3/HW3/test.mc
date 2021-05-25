@@ -1,8 +1,16 @@
 const int max=100;
 void main(){
 
- int i,j,k;
- float inryu=163.7;
+ int i,j,k
+
+
+
+ ;
+ const int min=0;
+ float inryu=163.7
+
+
+ ;
  int a[5];
  float a2[10];
  int rem, prime; // rem : remainder
@@ -20,3 +28,10 @@ void main(){
       ++i;
    }
 }
+
+int sum(int c, int b, float d){
+   int i;
+}
+
+float sum2(){
+   float j;

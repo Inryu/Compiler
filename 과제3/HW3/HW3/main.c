@@ -18,9 +18,8 @@ void main() {
 	look_id = (HTptr)malloc(sizeof(struct HTentry));
 	look_tmp = (HTptr)malloc(sizeof(struct HTentry));
 
-
-	printf("=============================================================================== \n");
-	printf("\t\t***MiniC parsing begins***\n\n");
+	printf("\n\n\t\t\t    ***MiniC parsing begins***\n");
+	printf("==================================================================================\n");
 
 
 	cLine = 1;
@@ -29,15 +28,19 @@ void main() {
 
 	yyparse();
 
-	printf("\n\t\t***Parsing ends.***\n");
-	printf("=============================================================================== \n");
+
+	printf("==================================================================================\n");
+	printf("\n\t\t  ===> Parsing ends.");
 
 
 	if (cErrors == 0) { 
-		printf("\n\t no errors detected\n"); 
-		PrintHStable();
+		printf("\t no errors detected\n\n\n\n"); 
+
 
 	}
 
-	else printf("\n\t %d error(s) detected\n", cErrors);
+	else printf("\t %d error(s) detected\n\n\n\n", cErrors);
+
+
+	PrintHStable();
 }
