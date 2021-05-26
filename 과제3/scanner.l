@@ -4,7 +4,7 @@
 *
 * Programmer - team2
 *
-* date - 
+* date -  5/26/2021
 *
 *
 */
@@ -15,6 +15,7 @@
 
 extern ComputeHS(int nid, int nfree);
 extern LookupHS(int nid, int nfree);
+extern SymmbolTable();
 extern ADDHT(int hscode);
 extern PrintHStable();
 extern yyerror(char *s);
@@ -108,9 +109,18 @@ int i;
   cLine++;
 }
 
+
+
  /*
- * Identifier (명칭)
-  */
+  Identifier (명칭)
+ *   13자 이상일 경우, 에러 호출
+ *   identifier로 인식된 token을 한 글자씩 ST에 넣음. (yytext, yyleng이용)
+ *   해당 identifier의 hashcode값을 계산.
+ *   HT[hashcode]에 identifier가 이미 있는지 확인
+ *   이미 있으면, 현재 읽은 identifier를 ST에서 삭제
+ *   아직 없으면, HT[hashcode]의 index에 identifier의 ST에서의 첫 인덱스 값을 넣음
+ */
+ 
 [a-zA-Z_][a-zA-Z0-9_]* {
 
   if(yyleng>MaxIdentLen){ 
@@ -126,7 +136,8 @@ int i;
       PrintHStable();
       exit(1);
     }
-        
+
+
     for (int i = 0; i < yyleng; i++) {
       ST[nextfree++] = yytext[i];
     }
@@ -147,7 +158,7 @@ int i;
 }
 
  /*
- * Constant (상수)
+ * Constant (상수) 
  */
 [0-9]+  {return(TNUMBER);}
 [0-9]+\.[0-9]+ return(TPOINT);

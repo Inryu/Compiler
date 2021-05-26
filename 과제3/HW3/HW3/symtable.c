@@ -3,18 +3,20 @@
 *
 * Programmer - team2
 *
-* date - 4/27/2021
+* date - 5/26/2021
 *
 */
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h> //exit()
+#include <stdlib.h> 
 #include "glob.h"
 #include "tn.h"
 
 
 
-/* PrintHStable - hash table 출력*/
+/* PrintHStable -
+* hash table을 형식에 맞추어 출력
+*/
 void PrintHStable()
 {
 	HTptr here;
@@ -30,30 +32,30 @@ void PrintHStable()
 				printf("\tHash Code%4d : (", i);
 				for (j = here->index; ST[j] != '\0'; j++) printf("%c", ST[j]);
 				printf(" : ");
-				
+
 				switch (here->type) {
-				case 1: printf("integer scalar variable, line%d)\n",here->cLine); break;
+					//int variable
+				case 1: printf("integer scalar variable, line%d)\n", here->cLine); break;
+					//void variable
 				case 2: printf("void scalar variable, line%d)\n", here->cLine); break;
+					//array(int) variable
 				case 3: printf("array integer variable, line%d)\n", here->cLine); break;
-
-				//void function
+					//void function
 				case 4: printf("function, return type=void, line%d)\n", here->cLine); break;
+					//not define
 				case 5: printf("not defined identifier/function, line%d)\n", here->cLine); break;
-				case 6 : printf("float scalar variable, line%d)\n", here->cLine); break;
+					//float variable
+				case 6: printf("float scalar variable, line%d)\n", here->cLine); break;
+					//array(float) variable
 				case 7: printf("array float variable, line%d)\n", here->cLine); break;
-				//int function
+					//int function
 				case 8: printf("function, return type=int, line%d)\n", here->cLine); break;
-				//float function
+					//float function
 				case 9:printf("function, return type=float, line%d)\n", here->cLine); break;
-				
-				//int scalar param
+					//int scalar parameter
 				case 10: printf("integer scalar parameter, line%d)\n", here->cLine); break;
-
-				//float scalar param
+					//float scalar parameter
 				case 11: printf("float scalar parameter, line%d)\n", here->cLine); break;
-
-			
-				
 				default: printf("identifier about parse error, line%d)\n", here->cLine); break;
 				}
 				here = here->next;
@@ -64,7 +66,7 @@ void PrintHStable()
 
 	}
 	printf("==================================================================================\n");
-	//printf("\t < %5d characters are used in the string table > \n ", nextfree);
+
 
 }
 
@@ -74,12 +76,6 @@ void PrintHStable()
 */
 void ComputeHS(int nid, int nfree)
 {
-	//int code, i;
-	//code = 0;
-	//for (i = nid; i < nfree - 1; i++) {
-	//	code += (int)ST[i]; //아스키 코드 합
-	//	hashcode = code % HTsize; //mod
-	//}
 	int i, func = 0;
 	for (i = nid; i < nfree - 1; i++) {
 		func += (int)ST[nid++];
@@ -88,9 +84,9 @@ void ComputeHS(int nid, int nfree)
 }
 
 /*
-LookupHS
-각 identifer에 대해, hastable에 이미 있는지 확인
-이미 있다면 found를 true로 초기화 / 없다면 false로 초기화
+* LookupHS
+* 각 identifer에 대해, hastable에 이미 있는지 확인
+* 이미 있다면 found를 true로 초기화 / 없다면 false로 초기화
 */
 void LookupHS(int nid, int hscode)
 {
@@ -121,10 +117,11 @@ void LookupHS(int nid, int hscode)
 
 
 /*
-ADDHT
-새로운 identifier를 hash table에 넣는다.
-ht[hashcode]리스트가 비어있다면, 해당 identifier의 ST에서 starting index를 값으로 넣어주고
-리스트가 비어있지않으면 리스트 맨 앞에 해당 identifier의 ST에서 starting index를 값으로 넣어준다.
+* ADDHT
+* 새로운 identifier를 hash table에 넣는다.
+* index와 next를 지정해주고, type은 0으로 초기화하며, 몇번째 줄에 존재하는지를 cLine에 저장한다.
+* ht[hashcode]리스트가 비어있다면, next는 NULL로 채우고,
+* 리스트가 비어있지않으면 next는 HT테이블을 이용하여 채운다.
 */
 void ADDHT(int hscode)
 {
@@ -158,7 +155,7 @@ MAIN
 *   HT[hashcode]에 identifier가 이미 있는지 확인
 *   이미 있으면, 현재 읽은 identifier를 ST에서 삭제
 *   아직 없으면, HT[hashcode]의 index에 identifier의 ST에서의 첫 인덱스 값을 넣음
-*   identifier에 대해 line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
+*   identifier에 대해 line number, Token-type(Identifier), token 순으로 출력
 */
 int SymmbolTable()
 {
@@ -184,13 +181,12 @@ int SymmbolTable()
 
 
 	if (!found) { // 아직 같은 identifier를 ST에 넣은 적 없을 때
-				  // line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
+				  // line number, Token-type(Identifier), token 순으로 출력
 		printf("[%-2d] %-35s %-30s\n", cLine, "Identifier", yytext);
 		ADDHT(hashcode); // HT 삽입
 	}
 	else { // 이미 같은 identifier가 있을 때
-
-		   // line number, Token-type, ST-index(identifier인 경우), token 순으로 출력
+		   // line number, Token-type(Identifier), 이미 존재하는 id, token 순으로 출력
 		printf("%-20d %-35s %-20d %-30s\n", cLine, "Identifier", sameid, yytext);
 		nextfree = nextid; //이번에 ST에 읽은 identifier를 다음에 덮어씀
 	}

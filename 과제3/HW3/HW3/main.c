@@ -3,7 +3,7 @@
 *
 * Programmer - team2
 *
-* date -
+* date - 2021/5/26
 *
 */
 #include <stdio.h>
@@ -21,11 +21,12 @@ void main() {
 	printf("\n\n\t\t\t    ***MiniC parsing begins***\n");
 	printf("==================================================================================\n");
 
-
+	/* cLine, nextid, nextfree 초기화 */
 	cLine = 1;
 	nextid = 0;
 	nextfree = 0;
 
+	/* 파싱 및 에러 타입 출력 */
 	yyparse();
 
 
@@ -33,14 +34,14 @@ void main() {
 	printf("\n\t\t  ===> Parsing ends.");
 
 
-	if (cErrors == 0) { 
-		printf("\t no errors detected\n\n\n\n"); 
+	if (cErrors == 0) {
+		printf("\t no errors detected\n\n\n\n");
 
 
 	}
 
 	else printf("\t %d error(s) detected\n\n\n\n", cErrors);
 
-
+	/* HS테이블 출력*/
 	PrintHStable();
 }
