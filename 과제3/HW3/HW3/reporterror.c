@@ -66,6 +66,15 @@ void reporterror(ERRORtypes err) {
 		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Overflow");
 		cErrors++;
 		break;
+	case 6: //no comma
+		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", " Missing Comma");
+		cErrors++;
+		break;
+
+	case 7: //wrong statement
+		printf("\t%-5d %-15s %-50s\n", cLine, "***Error***", "Wrong Statement");
+		cErrors++;
+		break;
 
 	}
 }

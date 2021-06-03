@@ -32,7 +32,7 @@ extern yyerror(char *s);
 %token TPLUS TMINUS TSTAR TSLASH TMOD TASSIGN TADDASSIGN TSUBASSIGN TMULASSIGN TDIVASSIGN TMODASSIGN TOR TEQUAL TNOTEQU TLESS TOVER TLESSE TINC TDEC
 %token TOSBRA TCSBRA TCOMMA TOMBRA TCMBRA TOLBRA TCLBRA TSEMI
 %token TNUMBER TFLOAT TLONG TNOT TAND TOVERE TILLIDENT TONECMT TMULCMT
-%token TIDENT TGREATE
+%token TIDENT
 %nonassoc LOWER_THAN_ELSE
 %nonassoc TELSE
 
@@ -43,8 +43,14 @@ mini_c : translation_unit
 translation_unit    : external_dcl            
          | translation_unit external_dcl
          ;
-external_dcl       : function_def         
+external_dcl    
+            : function_def         
            | declaration
+           | TIDENT TSEMI
+           | TIDENT error{
+                 yyerrok;
+                 reporterror(wrong_st);
+           };
                
 function_def      : function_header compound_st
                   |function_header TSEMI
@@ -113,7 +119,14 @@ opt_formal_param    : formal_param_list
             |   
          ;         
 formal_param_list    : param_dcl 
-             | formal_param_list TCOMMA param_dcl    
+             | formal_param_list TCOMMA param_dcl
+             | formal_param_list param_dcl error {
+                    yyerrok;
+                    reporterror(nocomma);
+             } 
+
+             
+            
          ;
 
                   /* 파라미터인 경우 */
@@ -162,6 +175,10 @@ declaration       : dcl_spec init_dcl_list TSEMI{
          ;
 init_dcl_list       : init_declarator         
          | init_dcl_list TCOMMA init_declarator 
+         | init_dcl_list init_declarator error {
+                    yyerrok;
+                    reporterror(nocomma);
+             } 
          ;   
 init_declarator    : declarator            
           | declarator TASSIGN TNUMBER 
@@ -244,38 +261,125 @@ assignment_exp    : logical_or_exp
       | unary_exp TSUBASSIGN assignment_exp    
       | unary_exp TMULASSIGN assignment_exp    
       | unary_exp TDIVASSIGN assignment_exp    
-      | unary_exp TMODASSIGN assignment_exp    
+      | unary_exp TMODASSIGN assignment_exp   
+      | unary_exp TASSIGN error{
+            yyerrok;
+            reporterror(wrong_st);
+      }  
+      | unary_exp TADDASSIGN error{
+            yyerrok;
+            reporterror(wrong_st);
+      }     
+      | unary_exp TSUBASSIGN error{
+            yyerrok;
+            reporterror(wrong_st);
+      }      
+      | unary_exp TMULASSIGN error{
+            yyerrok;
+            reporterror(wrong_st);
+      }     
+      | unary_exp TDIVASSIGN error{
+            yyerrok;
+            reporterror(wrong_st);
+      }     
+      | unary_exp TMODASSIGN error{
+            yyerrok;
+            reporterror(wrong_st);
+      }  
       ;
 logical_or_exp    : logical_and_exp         
-      | logical_or_exp TOR logical_and_exp    
+      | logical_or_exp TOR logical_and_exp  
+      |  logical_or_exp TOR error{
+            yyerrok;
+            reporterror(wrong_st);
+      }  
       ;
 logical_and_exp    : equality_exp            
           | logical_and_exp TAND equality_exp 
+          | logical_and_exp TAND error{
+            yyerrok;
+            reporterror(wrong_st);
+      }   
          ;   
 equality_exp       : relational_exp         
          | equality_exp TEQUAL relational_exp    
          | equality_exp TNOTEQU relational_exp 
+
+          | equality_exp TEQUAL error{
+            yyerrok;
+            reporterror(wrong_st);
+      }       
+         | equality_exp TNOTEQU error{
+            yyerrok;
+            reporterror(wrong_st);
+      }   
          ;   
 relational_exp    : additive_exp          
-      | relational_exp TOVER additive_exp    
+      | relational_exp TOVER additive_exp
+      | relational_exp TOVERE additive_exp     
       | relational_exp TLESS additive_exp    
-      | relational_exp TGREATE additive_exp    
       | relational_exp TLESSE additive_exp 
+
+       | relational_exp TOVER  error{
+            yyerrok;
+            reporterror(wrong_st);
+      }   
+     
+      | relational_exp TLESS  error{
+            yyerrok;
+            reporterror(wrong_st);
+      }           
+      | relational_exp TOVERE  error{
+            yyerrok;
+            reporterror(wrong_st);
+      }          
+      | relational_exp TLESSE  error{
+            yyerrok;
+            reporterror(wrong_st);
+      }        
+
+
+
       ;   
 additive_exp    : multiplicative_exp         
-      | additive_exp TPLUS multiplicative_exp    
-      | additive_exp TMINUS multiplicative_exp    
-      ;
+      | additive_exp TPLUS multiplicative_exp
+      | additive_exp TPLUS error{
+            yyerrok;
+            reporterror(wrong_st);
+      } 
+      | additive_exp TMINUS multiplicative_exp  
+      | additive_exp TMINUS error {
+            yyerrok;
+            reporterror(wrong_st);
+      };
 multiplicative_exp    : unary_exp            
-             | multiplicative_exp TSTAR unary_exp    
-             | multiplicative_exp TSLASH unary_exp    
-             | multiplicative_exp TMOD unary_exp    
+             | multiplicative_exp TSTAR unary_exp
+             | multiplicative_exp TSLASH unary_exp  
+             | multiplicative_exp TMOD unary_exp  
+
+
+              | multiplicative_exp TSTAR  error{
+            yyerrok;
+            reporterror(wrong_st);
+      }        
+
+             | multiplicative_exp TSLASH  error{
+            yyerrok;
+            reporterror(wrong_st);
+      }        
+  
+             | multiplicative_exp TMOD  error{
+            yyerrok;
+            reporterror(wrong_st);
+      }        
+    
          ;
-unary_exp       : postfix_exp            
+unary_exp       : postfix_exp      
             | TMINUS unary_exp            
             | TNOT unary_exp            
             | TINC unary_exp         
             | TDEC unary_exp
+
          ;         
 postfix_exp       : primary_exp            
                | postfix_exp TOLBRA expression TCLBRA    
@@ -289,7 +393,8 @@ opt_actual_param    : actual_param
 actual_param       : actual_param_list   
          ;      
 actual_param_list    : assignment_exp         
-            | actual_param_list TCOMMA assignment_exp    
+            | actual_param_list TCOMMA assignment_exp
+        
          ;
 primary_exp   : TIDENT
             {

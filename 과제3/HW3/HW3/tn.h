@@ -47,8 +47,7 @@
 #define	TONECMT	301
 #define	TMULCMT	302
 #define	TIDENT	303
-#define	TGREATE	304
-#define	LOWER_THAN_ELSE	305
+#define	LOWER_THAN_ELSE	304
 
 
 extern YYSTYPE yylval;

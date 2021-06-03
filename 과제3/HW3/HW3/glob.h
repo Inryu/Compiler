@@ -63,7 +63,7 @@ char *yytext;
 * nobracket: 대괄호 생략된 경우
 *
 */
-enum errorTypes { wrong_funcdef, nosemi, nobrace, nobracket, tlong, toverflow };
+enum errorTypes { wrong_funcdef, nosemi, nobrace, nobracket, tlong, toverflow,nocomma , wrong_st};
 typedef enum errorTypes ERRORtypes;
 ERRORtypes err;
 
