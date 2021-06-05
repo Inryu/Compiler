@@ -27,10 +27,14 @@
  int param_char=0;
  int param_string=0;
 
+ char *scope="";
+
 
 extern reporterror();
 extern yylex();
+extern char *yytext;
 extern yyerror(char *s);
+extern append(char *dst, char c);
 
 %}
 
@@ -91,13 +95,14 @@ type_specifier    : TINT {type_int=1;}
           | TSTRING {type_string=1;}
          ;
                
-function_name    : TIDENT
-                  
+function_name    : TIDENT                  
                   {
-
+                  scope=preyytext;
                   /* type이 identifier about parse error또는 
                   not defined identifier/function로 설정된 경우 */
                   if(look_id->type==0||look_id->type==5){
+
+                        
                         
                         /* void인지 int인지 float인지에 따라 function type 설정*/
                         if(type_void==1){
@@ -145,19 +150,29 @@ formal_param_list    : param_dcl
 
                   /* 파라미터인 경우 */
 param_dcl       : dcl_spec declarator{
+
+
+
                   if(type_int==1){ /* int로 설정된 경우 */
                         param_int=1; 
                         look_id->type=10;  /* integer scalar parameter */
+                        look_id->scope=scope;
+                        printf("***look_id->scope***\n");
+                        printf("%s\n",look_id->scope);
+                        printf("*****")
                   }else if(type_float==1){ /* float으로 설정된 경우 */
                         param_float=1;
                         look_id->type=11; /* float scalar parameter */
+                        look_id->scope=scope;
                   }else if(type_char==1){
                         param_char=1;
                         look_id->type=16;                        
+                        look_id->scope=scope;
                   }
                   else if(type_string==1){
                         param_string=1;
                         look_id->type=17;                        
+                        look_id->scope=scope;
                   }
                   type_int=0;
                   type_void=0;

@@ -972,6 +972,7 @@ YY_RULE_SETUP
 #line 133 "scanner.l"
 {
 
+    preyytext=yytext;
     SymbolTable();
     return (TIDENT);
  
@@ -982,7 +983,7 @@ YY_RULE_SETUP
  */
 case 49:
 YY_RULE_SETUP
-#line 144 "scanner.l"
+#line 145 "scanner.l"
 {
   return(TCHARVAR);
 } 
@@ -992,7 +993,7 @@ YY_RULE_SETUP
  */
 case 50:
 YY_RULE_SETUP
-#line 152 "scanner.l"
+#line 153 "scanner.l"
 return(TSTRINGVAR);
 	YY_BREAK
 /*
@@ -1000,15 +1001,15 @@ return(TSTRINGVAR);
  */
 case 51:
 YY_RULE_SETUP
-#line 158 "scanner.l"
+#line 159 "scanner.l"
 {yyerror("scanner error : illegal separator");}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 160 "scanner.l"
+#line 161 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 1012 "lex.yy.c"
+#line 1013 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1868,7 +1869,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 160 "scanner.l"
+#line 161 "scanner.l"
 
 
 int yywrap(){

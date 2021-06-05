@@ -33,6 +33,7 @@ typedef struct HTentry {
 	int index;
 	int type;
 	int cLine;
+	char *scope;
 	HTptr next;
 };
 
@@ -40,6 +41,9 @@ typedef struct HTentry {
 HTptr HT[HTsize];
 HTptr look_id;
 HTptr look_tmp;
+
+char *preyytext;
+char *funcname;
 
 
 char ST[STsize];

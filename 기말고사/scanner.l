@@ -132,6 +132,7 @@ int i;
  
 [a-zA-Z_][a-zA-Z0-9_]* {
 
+    preyytext=yytext;
     SymbolTable();
     return (TIDENT);
  

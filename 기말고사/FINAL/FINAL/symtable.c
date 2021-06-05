@@ -35,44 +35,42 @@ void PrintHStable()
 
 				switch (here->type) {
 					//int variable
-				case 1: printf("integer scalar variable, line%d)\n", here->cLine); break;
+				case 1: printf("integer scalar variable, line%d, %-10s)\n", here->cLine, here->scope); break;
 					//void variable
-				case 2: printf("void scalar variable, line%d)\n", here->cLine); break;
+				case 2: printf("void scalar variable, line%d, %-10s)\n", here->cLine, here->scope); break;
 					//array(int) variable
-				case 3: printf("array integer variable, line%d)\n", here->cLine); break;
+				case 3: printf("array integer variable, line%d, %-10s)\n", here->cLine, here->scope); break;
 					//void function
 				case 4: printf("function, return type=void, line%d)\n", here->cLine); break;
 					//not define
-				case 5: printf("not defined identifier/function, line%d)\n", here->cLine); break;
+				case 5: printf("not defined identifier/function, line%d, %-10s)\n", here->cLine); break;
 					//float variable
-				case 6: printf("float scalar variable, line%d)\n", here->cLine); break;
+				case 6: printf("float scalar variable, line%d, %-10s)\n", here->cLine, here->scope); break;
 					//array(float) variable
-				case 7: printf("array float variable, line%d)\n", here->cLine); break;
+				case 7: printf("array float variable, line%d, %-10s)\n", here->cLine, here->scope); break;
 					//int function
 				case 8: printf("function, return type=int, line%d)\n", here->cLine); break;
 					//float function
 				case 9:printf("function, return type=float, line%d)\n", here->cLine); break;
 					//int scalar parameter
-				case 10: printf("integer scalar parameter, line%d)\n", here->cLine); break;
+				case 10: printf("integer scalar parameter, line%d, %-10s)\n", here->cLine, here->scope); break;
 					//float scalar parameter
-				case 11: printf("float scalar parameter, line%d)\n", here->cLine); break;
+				case 11: printf("float scalar parameter,line%d, %-10s)\n", here->cLine, here->scope); break;
 				
 					//char scalar variable
-				case 12: printf("char scalar variable, line%d)\n", here->cLine); break;
+				case 12: printf("char scalar variable, line%d, %-10s)\n", here->cLine, here->scope); break;
 					//string scalar variable
-				case 13: printf("string scalar variable, line%d)\n", here->cLine); break;
+				case 13: printf("string scalar variable, line%d, %-10s)\n", here->cLine, here->scope); break;
 
 				case 14: printf("function, return type=char, line%d)\n", here->cLine); break;
 					//void function
 				case 15: printf("function, return type=string, line%d)\n", here->cLine); break;
 					//int scalar parameter
-				case 16: printf("char scalar parameter, line%d)\n", here->cLine); break;
+				case 16: printf("char scalar parameter, line%d, %-10s)\n", here->cLine, here->scope); break;
 					//float scalar parameter
-				case 17: printf("string scalar parameter, line%d)\n", here->cLine); break;
+				case 17: printf("string scalar parameter, line%d, %-10s)\n", here->cLine, here->scope); break;
 
-				
-				
-				default: printf("identifier about parse error, line%d)\n", here->cLine); break;
+				default: printf("identifier about parse error, line%d, %-10s)\n", here->cLine); break;
 				}
 				here = here->next;
 			} while (here != NULL);
@@ -141,6 +139,7 @@ void LookupHS(int nid, int hscode)
 */
 void ADDHT(int hscode)
 {
+
 	HTptr tmp;
 
 	if (HT[hscode] == NULL) {
@@ -148,6 +147,7 @@ void ADDHT(int hscode)
 		tmp->type = 0;
 		tmp->next = NULL;
 		tmp->cLine = cLine;
+		tmp->scope = preyytext;
 		HT[hscode] = tmp;
 		tmp->index = nextid;
 	}
@@ -157,6 +157,7 @@ void ADDHT(int hscode)
 		tmp->index = nextid;
 		tmp->next = HT[hscode];
 		tmp->cLine = cLine;
+		tmp->scope = preyytext;
 		HT[hscode] = tmp;
 	}
 	look_id = tmp;
