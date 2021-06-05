@@ -63,38 +63,33 @@
 *
 * Programmer - team2
 *
-* date -  5/26/2021
+* 1871040이유정 / 1871026 신인류 / 1876136 박가현
+*
+* date -  6/05/2021
 *
 */
-
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <malloc.h>
-
 #include "glob.h"
-
  int type_int=0;
  int type_void=0;
  int type_float=0;
  
  int type_char=0;
  int type_string=0;
-
  int param_int=0;
  int param_float=0;
  int param_char=0;
  int param_string=0;
-
- char *scope="";
-
-
+ char scope[100]="\0";
 extern reporterror();
 extern yylex();
 extern char *yytext;
 extern yyerror(char *s);
 extern append(char *dst, char c);
-
 
 #ifndef YYLTYPE
 typedef
@@ -235,21 +230,21 @@ static const short yyrhs[] = {    55,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    51,    53,    54,    57,    58,    59,    60,    65,    66,    67,
-    76,    78,    80,    81,    83,    84,    86,    91,    92,    93,
-    94,    95,    98,   130,   131,   135,   137,   138,   140,   141,
-   142,   152,   189,   190,   196,   197,   199,   200,   202,   209,
-   220,   221,   222,   227,   228,   229,   230,   231,   233,   256,
-   267,   271,   272,   275,   276,   277,   279,   280,   282,   283,
-   284,   286,   287,   288,   289,   290,   292,   293,   299,   300,
-   302,   303,   305,   307,   309,   311,   312,   313,   314,   315,
-   316,   317,   318,   323,   327,   331,   335,   339,   344,   345,
-   346,   351,   352,   353,   358,   359,   360,   362,   366,   371,
-   372,   373,   374,   375,   377,   382,   386,   390,   398,   399,
-   400,   404,   405,   409,   410,   411,   412,   415,   420,   425,
-   431,   432,   433,   434,   435,   438,   439,   440,   441,   442,
-   444,   445,   447,   449,   450,   453,   459,   460,   461,   462,
-   463
+    43,    45,    46,    49,    50,    51,    52,    57,    58,    59,
+    67,    69,    71,    72,    74,    75,    77,    80,    81,    82,
+    83,    84,    87,   116,   117,   120,   122,   123,   125,   126,
+   127,   135,   166,   167,   173,   174,   176,   177,   179,   186,
+   197,   198,   199,   204,   205,   206,   207,   208,   210,   236,
+   245,   249,   250,   252,   253,   254,   256,   257,   259,   260,
+   261,   263,   264,   265,   266,   267,   269,   270,   276,   277,
+   279,   280,   282,   284,   286,   288,   289,   290,   291,   292,
+   293,   294,   295,   299,   303,   307,   311,   315,   320,   321,
+   322,   327,   328,   329,   334,   335,   336,   337,   341,   346,
+   347,   348,   349,   350,   351,   356,   360,   364,   369,   370,
+   371,   375,   376,   380,   381,   382,   383,   384,   388,   393,
+   399,   400,   401,   402,   403,   405,   406,   407,   408,   409,
+   411,   412,   414,   416,   417,   420,   425,   426,   427,   428,
+   429
 };
 
 static const char * const yytname[] = {   "$","error","$undefined.","TCONST",
@@ -1007,16 +1002,15 @@ yyreduce:
   switch (yyn) {
 
 case 7:
-#line 60 "parser.y"
+#line 52 "parser.y"
 {
                  yyerrok;
                  reporterror(wrong_st);
            ;
     break;}
 case 10:
-#line 68 "parser.y"
+#line 60 "parser.y"
 {
-
                     /* type을 0(default)로 세팅 */    
                     look_tmp->type=0;
                     yyerrok;
@@ -1024,33 +1018,32 @@ case 10:
                   ;
     break;}
 case 18:
-#line 91 "parser.y"
+#line 80 "parser.y"
 {type_int=1;;
     break;}
 case 19:
-#line 92 "parser.y"
+#line 81 "parser.y"
 {type_void=1;;
     break;}
 case 20:
-#line 93 "parser.y"
+#line 82 "parser.y"
 {type_float=1;;
     break;}
 case 21:
-#line 94 "parser.y"
+#line 83 "parser.y"
 {type_char=1;;
     break;}
 case 22:
-#line 95 "parser.y"
+#line 84 "parser.y"
 {type_string=1;;
     break;}
 case 23:
-#line 99 "parser.y"
+#line 88 "parser.y"
 {
-                  scope=preyytext;
+	      strcpy(scope,preyytext);
                   /* type이 identifier about parse error또는 
                   not defined identifier/function로 설정된 경우 */
                   if(look_id->type==0||look_id->type==5){
-
                         
                         
                         /* void인지 int인지 float인지에 따라 function type 설정*/
@@ -1071,43 +1064,36 @@ case 23:
                         type_float=0;
                         type_char=0;
                         type_string=0;
-                        look_tmp=look_id;
                   }
                   ;
     break;}
 case 31:
-#line 142 "parser.y"
+#line 127 "parser.y"
 {
                     yyerrok;
                     reporterror(nocomma);
              ;
     break;}
 case 32:
-#line 152 "parser.y"
+#line 135 "parser.y"
 {
-
-
-
                   if(type_int==1){ /* int로 설정된 경우 */
                         param_int=1; 
                         look_id->type=10;  /* integer scalar parameter */
-                        look_id->scope=scope;
-                        printf("***look_id->scope***\n");
-                        printf("%s\n",look_id->scope);
-                        printf("*****")
+						strcpy(look_id->scope, scope);
                   }else if(type_float==1){ /* float으로 설정된 경우 */
                         param_float=1;
                         look_id->type=11; /* float scalar parameter */
-                        look_id->scope=scope;
+                        strcpy(look_id->scope, scope);
                   }else if(type_char==1){
                         param_char=1;
                         look_id->type=16;                        
-                        look_id->scope=scope;
+                        strcpy(look_id->scope, scope);
                   }
                   else if(type_string==1){
                         param_string=1;
                         look_id->type=17;                        
-                        look_id->scope=scope;
+                       strcpy(look_id->scope, scope);
                   }
                   type_int=0;
                   type_void=0;
@@ -1118,18 +1104,18 @@ case 32:
                   param_float=0;
                   param_char=0;
                   param_string=0;
-
+	      look_tmp=look_id;
 ;
     break;}
 case 34:
-#line 191 "parser.y"
+#line 168 "parser.y"
 {
                         yyerrok;
                         reporterror(nobrace); /* no brace error */
                   ;
     break;}
 case 39:
-#line 202 "parser.y"
+#line 179 "parser.y"
 {
                         type_int=0;
                         type_void=0;
@@ -1139,7 +1125,7 @@ case 39:
                   ;
     break;}
 case 40:
-#line 209 "parser.y"
+#line 186 "parser.y"
 {
                         look_tmp->type=0; /* identifier about parse error*/
                         yyerrok;
@@ -1152,205 +1138,204 @@ case 40:
                   ;
     break;}
 case 43:
-#line 222 "parser.y"
+#line 199 "parser.y"
 {
                     yyerrok;
                     reporterror(nocomma);
              ;
     break;}
 case 49:
-#line 233 "parser.y"
+#line 210 "parser.y"
 {
                   if(look_id->type==0){
-
                         /* scalar : int인지 void인지 float인지에 따라*/
                         if(type_int==1){
                               look_id->type=1; /* integer scalar variable */
+                              strcpy(look_id->scope, scope);
                         }
                         else if(type_void==1){
                               look_id->type=2; /* void scalar variable */
+                              strcpy(look_id->scope, scope);
                         }
                         else if(type_float==1){
                               look_id->type=6; /* float scalar variable */
+                              strcpy(look_id->scope, scope);
                         }
                         else if(type_char==1){
                               look_id->type=12; /* char scalar variable */
+                              strcpy(look_id->scope, scope);
                         }     
                         else if(type_string==1){
                               look_id->type=13; /* string scalar variable */
+                              strcpy(look_id->scope, scope);
                         }          
                   }
                   look_tmp=look_id;
-
             ;
     break;}
 case 50:
-#line 257 "parser.y"
+#line 237 "parser.y"
 {
                   /* array : int인지 float인지에 따라*/
                   if(look_id->type==0){
                         if(type_int==1)look_id->type=3; /* array integer variable */
                         else if(type_float==1) look_id->type=7;  /* array float variable */            
                   }
-
                    look_tmp=look_id;
-
             ;
     break;}
 case 51:
-#line 267 "parser.y"
+#line 245 "parser.y"
 {
                   yyerrok;
                   reporterror(nobracket); /* no bracekt error */
             ;
     break;}
 case 68:
-#line 294 "parser.y"
+#line 271 "parser.y"
 {
                         yyerrok;
                         reporterror(nosemi); /* no semicolon error */
                   ;
     break;}
 case 83:
-#line 318 "parser.y"
+#line 295 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
-
       ;
     break;}
 case 84:
-#line 323 "parser.y"
+#line 299 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 85:
-#line 327 "parser.y"
+#line 303 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 86:
-#line 331 "parser.y"
+#line 307 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 87:
-#line 335 "parser.y"
+#line 311 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 88:
-#line 339 "parser.y"
+#line 315 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 91:
-#line 346 "parser.y"
+#line 322 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 94:
-#line 353 "parser.y"
+#line 329 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 98:
-#line 362 "parser.y"
+#line 337 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 99:
-#line 366 "parser.y"
+#line 341 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 105:
-#line 377 "parser.y"
+#line 351 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 106:
-#line 382 "parser.y"
+#line 356 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 107:
-#line 386 "parser.y"
+#line 360 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 108:
-#line 390 "parser.y"
+#line 364 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 111:
-#line 400 "parser.y"
+#line 371 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 113:
-#line 405 "parser.y"
+#line 376 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 118:
-#line 415 "parser.y"
+#line 384 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 119:
-#line 420 "parser.y"
+#line 388 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 120:
-#line 425 "parser.y"
+#line 393 "parser.y"
 {
             yyerrok;
             reporterror(wrong_st);
       ;
     break;}
 case 136:
-#line 454 "parser.y"
+#line 421 "parser.y"
 {
                   if(look_id->type==0)
                         look_id->type=5; /* not defined identifier/function */
-
             ;
     break;}
 }
@@ -1551,6 +1536,5 @@ yyerrhandle:
   yystate = yyn;
   goto yynewstate;
 }
-#line 466 "parser.y"
-
+#line 432 "parser.y"
 

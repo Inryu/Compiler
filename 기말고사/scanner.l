@@ -4,7 +4,9 @@
 *
 * Programmer - team2
 *
-* date -  5/26/2021
+* 1871040이유정 / 1871026 신인류 / 1876136 박가현
+*
+* date -  6/05/2021
 *
 *
 */
@@ -126,8 +128,7 @@ int i;
 
  /*
   Identifier (명칭)
- *   13자 이상일 경우, 에러 호출
- *   아닌 경우, SymbolTable 호출 (ST삽입, hashcode계산, HT삽입 수행)
+ *   SymbolTable 호출 (ST삽입, hashcode계산, HT삽입 수행)
  */
  
 [a-zA-Z_][a-zA-Z0-9_]* {

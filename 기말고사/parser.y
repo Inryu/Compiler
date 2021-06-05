@@ -4,40 +4,34 @@
 *
 * Programmer - team2
 *
-* date -  5/26/2021
+* 1871040이유정 / 1871026 신인류 / 1876136 박가현
+*
+* date -  6/05/2021
 *
 */
-
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <malloc.h>
-
 #include "glob.h"
-
  int type_int=0;
  int type_void=0;
  int type_float=0;
  
  int type_char=0;
  int type_string=0;
-
  int param_int=0;
  int param_float=0;
  int param_char=0;
  int param_string=0;
-
- char *scope="";
-
-
+ char scope[100]="\0";
 extern reporterror();
 extern yylex();
 extern char *yytext;
 extern yyerror(char *s);
 extern append(char *dst, char c);
-
 %}
-
 %token TCONST TELSE TIF TINT TRETURN  TVOID TWHILE TPOINT TILLSP
 %token TPLUS TMINUS TSTAR TSLASH TMOD TASSIGN TADDASSIGN TSUBASSIGN TMULASSIGN TDIVASSIGN TMODASSIGN TOR TEQUAL TNOTEQU TLESS TOVER TLESSE TINC TDEC
 %token TOSBRA TCSBRA TCOMMA TOMBRA TCMBRA TOLBRA TCLBRA TSEMI
@@ -45,8 +39,6 @@ extern append(char *dst, char c);
 %token TIDENT TSTRING TCHAR TCHARVAR TSTRINGVAR
 %nonassoc LOWER_THAN_ELSE
 %nonassoc TELSE
-
-
 %%
 mini_c : translation_unit 
          ;         
@@ -66,7 +58,6 @@ function_def      : function_header compound_st
                   |function_header TSEMI
                   |function_header error /* function definition error*/
                   {
-
                     /* type을 0(default)로 세팅 */    
                     look_tmp->type=0;
                     yyerrok;
@@ -85,8 +76,6 @@ dcl_specifier       : type_qualifier
          ;         
 type_qualifier       : TCONST
          ;            
-
-
       /* type_specifier 종류에 따라, 해당 type변수를 1로 설정*/
 type_specifier    : TINT {type_int=1;}           
           | TVOID {type_void=1;}
@@ -97,11 +86,10 @@ type_specifier    : TINT {type_int=1;}
                
 function_name    : TIDENT                  
                   {
-                  scope=preyytext;
+	      strcpy(scope,preyytext);
                   /* type이 identifier about parse error또는 
                   not defined identifier/function로 설정된 경우 */
                   if(look_id->type==0||look_id->type==5){
-
                         
                         
                         /* void인지 int인지 float인지에 따라 function type 설정*/
@@ -122,15 +110,12 @@ function_name    : TIDENT
                         type_float=0;
                         type_char=0;
                         type_string=0;
-                        look_tmp=look_id;
                   }
                   }
-
                   /* ill identifier, too long identifier인 경우, scanner에서 에러 발생시킴*/
                   |TILLIDENT
                   |TLONG;
           
-
             
 formal_param       : TOSBRA opt_formal_param TCSBRA
          ;   
@@ -143,36 +128,28 @@ formal_param_list    : param_dcl
                     yyerrok;
                     reporterror(nocomma);
              } 
-
              
             
          ;
-
                   /* 파라미터인 경우 */
 param_dcl       : dcl_spec declarator{
-
-
-
                   if(type_int==1){ /* int로 설정된 경우 */
                         param_int=1; 
                         look_id->type=10;  /* integer scalar parameter */
-                        look_id->scope=scope;
-                        printf("***look_id->scope***\n");
-                        printf("%s\n",look_id->scope);
-                        printf("*****")
+						strcpy(look_id->scope, scope);
                   }else if(type_float==1){ /* float으로 설정된 경우 */
                         param_float=1;
                         look_id->type=11; /* float scalar parameter */
-                        look_id->scope=scope;
+                        strcpy(look_id->scope, scope);
                   }else if(type_char==1){
                         param_char=1;
                         look_id->type=16;                        
-                        look_id->scope=scope;
+                        strcpy(look_id->scope, scope);
                   }
                   else if(type_string==1){
                         param_string=1;
                         look_id->type=17;                        
-                        look_id->scope=scope;
+                       strcpy(look_id->scope, scope);
                   }
                   type_int=0;
                   type_void=0;
@@ -183,7 +160,7 @@ param_dcl       : dcl_spec declarator{
                   param_float=0;
                   param_char=0;
                   param_string=0;
-
+	      look_tmp=look_id;
 }    
          ;   
 compound_st       : TOMBRA opt_dcl_list opt_stat_list TCMBRA
@@ -232,26 +209,29 @@ init_declarator    : declarator
          ;
 declarator    : TIDENT{
                   if(look_id->type==0){
-
                         /* scalar : int인지 void인지 float인지에 따라*/
                         if(type_int==1){
                               look_id->type=1; /* integer scalar variable */
+                              strcpy(look_id->scope, scope);
                         }
                         else if(type_void==1){
                               look_id->type=2; /* void scalar variable */
+                              strcpy(look_id->scope, scope);
                         }
                         else if(type_float==1){
                               look_id->type=6; /* float scalar variable */
+                              strcpy(look_id->scope, scope);
                         }
                         else if(type_char==1){
                               look_id->type=12; /* char scalar variable */
+                              strcpy(look_id->scope, scope);
                         }     
                         else if(type_string==1){
                               look_id->type=13; /* string scalar variable */
+                              strcpy(look_id->scope, scope);
                         }          
                   }
                   look_tmp=look_id;
-
             }               
             | TIDENT TOLBRA opt_number TCLBRA 
             {
@@ -260,9 +240,7 @@ declarator    : TIDENT{
                         if(type_int==1)look_id->type=3; /* array integer variable */
                         else if(type_float==1) look_id->type=7;  /* array float variable */            
                   }
-
                    look_tmp=look_id;
-
             }  
             |TIDENT TOLBRA opt_number error{
                   yyerrok;
@@ -270,7 +248,6 @@ declarator    : TIDENT{
             }
             |TILLIDENT
             |TLONG;
-
          
 opt_number       : TNUMBER 
               | TPOINT  /* float형 숫자 */      
@@ -318,7 +295,6 @@ assignment_exp    : logical_or_exp
       | unary_exp TASSIGN error{
             yyerrok;
             reporterror(wrong_st);
-
       }  
       | unary_exp TADDASSIGN error{
             yyerrok;
@@ -358,7 +334,6 @@ logical_and_exp    : equality_exp
 equality_exp       : relational_exp         
          | equality_exp TEQUAL relational_exp    
          | equality_exp TNOTEQU relational_exp 
-
           | equality_exp TEQUAL error{
             yyerrok;
             reporterror(wrong_st);
@@ -373,7 +348,6 @@ relational_exp    : additive_exp
       | relational_exp TOVERE additive_exp     
       | relational_exp TLESS additive_exp    
       | relational_exp TLESSE additive_exp 
-
        | relational_exp TOVER  error{
             yyerrok;
             reporterror(wrong_st);
@@ -391,9 +365,6 @@ relational_exp    : additive_exp
             yyerrok;
             reporterror(wrong_st);
       }        
-
-
-
       ;   
 additive_exp    : multiplicative_exp         
       | additive_exp TPLUS multiplicative_exp
@@ -410,13 +381,10 @@ multiplicative_exp    : unary_exp
              | multiplicative_exp TSTAR unary_exp
              | multiplicative_exp TSLASH unary_exp  
              | multiplicative_exp TMOD unary_exp  
-
-
               | multiplicative_exp TSTAR  error{
             yyerrok;
             reporterror(wrong_st);
       }        
-
              | multiplicative_exp TSLASH  error{
             yyerrok;
             reporterror(wrong_st);
@@ -433,7 +401,6 @@ unary_exp       : postfix_exp
             | TNOT unary_exp            
             | TINC unary_exp         
             | TDEC unary_exp
-
          ;         
 postfix_exp       : primary_exp            
                | postfix_exp TOLBRA expression TCLBRA    
@@ -454,7 +421,6 @@ primary_exp   : TIDENT
             {
                   if(look_id->type==0)
                         look_id->type=5; /* not defined identifier/function */
-
             }            
               | TNUMBER       
               | TPOINT     
@@ -464,4 +430,3 @@ primary_exp   : TIDENT
                           
          ;
 %%
-

@@ -3,7 +3,9 @@
 *
 * Programmer - team2
 *
-* date -  5/26/2021
+* 1871040이유정 / 1871026 신인류 / 1876136 박가현
+*
+* date -  6/05/2021
 *
 */
 #include <stdio.h>
@@ -17,6 +19,11 @@ void main() {
 
 	look_id = (HTptr)malloc(sizeof(struct HTentry));
 	look_tmp = (HTptr)malloc(sizeof(struct HTentry));
+	printf("***TEAM 02***\n");
+	printf("1871040 이유정\n");
+	printf("1871026 신인류\n");
+	printf("1876136 박가현\n");
+
 
 	printf("\n\n\t\t\t    ***MiniC parsing begins***\n");
 	printf("==================================================================================\n");

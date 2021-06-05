@@ -4,7 +4,9 @@
 *
 * Programmer - team2
 *
-* date -  5/26/2021
+* 1871040이유정 / 1871026 신인류 / 1876136 박가현
+*
+* date -  6/05/2021
 *
 */
 
@@ -33,7 +35,7 @@ typedef struct HTentry {
 	int index;
 	int type;
 	int cLine;
-	char *scope;
+	char scope[100];
 	HTptr next;
 };
 
@@ -67,7 +69,7 @@ char *yytext;
 * nobracket: 대괄호 생략된 경우
 *
 */
-enum errorTypes { wrong_funcdef, nosemi, nobrace, nobracket, tlong, toverflow,nocomma , wrong_st};
+enum errorTypes { wrong_funcdef, nosemi, nobrace, nobracket, tlong, toverflow, nocomma, wrong_st };
 typedef enum errorTypes ERRORtypes;
 ERRORtypes err;
 
